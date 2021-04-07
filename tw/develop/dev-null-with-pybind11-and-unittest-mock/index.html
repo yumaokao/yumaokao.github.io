@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="嗨嗨，我愛 pybind11    ！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="&#x2F;dev&#x2F;null with pybind11 and unittest.mock">
+<meta property="og:url" content="http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/index.html">
+<meta property="og:site_name" content="YMK&#39;s Blog">
+<meta property="og:description" content="嗨嗨，我愛 pybind11    ！">
+<meta property="og:locale">
+<meta property="article:published_time" content="2018-07-28T15:15:45.000Z">
+<meta property="article:modified_time" content="2018-07-28T15:15:45.000Z">
+<meta property="article:author" content="yumaokao">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="unittest">
+<meta property="article:tag" content="c++11">
+<meta property="article:tag" content="pybind11">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Category: develop</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <style>
+      svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.225em;
+}
+.svg-inline--fa.fa-w-1 {
+  width: 0.0625em;
+}
+.svg-inline--fa.fa-w-2 {
+  width: 0.125em;
+}
+.svg-inline--fa.fa-w-3 {
+  width: 0.1875em;
+}
+.svg-inline--fa.fa-w-4 {
+  width: 0.25em;
+}
+.svg-inline--fa.fa-w-5 {
+  width: 0.3125em;
+}
+.svg-inline--fa.fa-w-6 {
+  width: 0.375em;
+}
+.svg-inline--fa.fa-w-7 {
+  width: 0.4375em;
+}
+.svg-inline--fa.fa-w-8 {
+  width: 0.5em;
+}
+.svg-inline--fa.fa-w-9 {
+  width: 0.5625em;
+}
+.svg-inline--fa.fa-w-10 {
+  width: 0.625em;
+}
+.svg-inline--fa.fa-w-11 {
+  width: 0.6875em;
+}
+.svg-inline--fa.fa-w-12 {
+  width: 0.75em;
+}
+.svg-inline--fa.fa-w-13 {
+  width: 0.8125em;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+}
+.svg-inline--fa.fa-w-15 {
+  width: 0.9375em;
+}
+.svg-inline--fa.fa-w-16 {
+  width: 1em;
+}
+.svg-inline--fa.fa-w-17 {
+  width: 1.0625em;
+}
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
+}
+.svg-inline--fa.fa-w-19 {
+  width: 1.1875em;
+}
+.svg-inline--fa.fa-w-20 {
+  width: 1.25em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-border {
+  height: 1.5em;
+}
+.svg-inline--fa.fa-li {
+  width: 2em;
+}
+.svg-inline--fa.fa-fw {
+  width: 1.25em;
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: 0.25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  -webkit-filter: none;
+          filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse {
+  color: #fff;
+}
+    </style>
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/tw/develop/docker-symbolic-linked-volumes/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/tw/environment/makefile-of-dot-configs/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&text=/dev/null with pybind11 and unittest.mock"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&is_video=false&description=/dev/null with pybind11 and unittest.mock"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=/dev/null with pybind11 and unittest.mock&body=Check out this article: http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&name=/dev/null with pybind11 and unittest.mock&description=&lt;blockquote&gt;
+&lt;p&gt;嗨嗨，我愛 &lt;strong&gt;&lt;a href=&#34;https://github.com/pybind/pybind11&#34;&gt;pybind11&lt;/a&gt;&lt;/strong&gt;
+  &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;file-import&#34; class=&#34;svg-inline--fa fa-file-import fa-w-16&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M16 288c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h112v-64zm489-183L407.1 7c-4.5-4.5-10.6-7-17-7H384v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-153 31V0H152c-13.3 0-24 10.7-24 24v264h128v-65.2c0-14.3 17.3-21.4 27.4-11.3L379 308c6.6 6.7 6.6 17.4 0 24l-95.7 96.4c-10.1 10.1-27.4 3-27.4-11.3V352H128v136c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H376c-13.2 0-24-10.8-24-24z&#34;&gt;&lt;/path&gt;&lt;/svg&gt; &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fab&#34; data-icon=&#34;python&#34; class=&#34;svg-inline--fa fa-python fa-w-14&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 448 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;！&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&t=/dev/null with pybind11 and unittest.mock"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#print-in-Python-with-unittest-mock"><span class="toc-number">2.</span> <span class="toc-text">print in Python with unittest.mock</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cout-cerr-in-C-with-py-scoped-estream-redirect-in-pybind11"><span class="toc-number">3.</span> <span class="toc-text">cout&#x2F;cerr in C++ with py::scoped_estream_redirect in pybind11</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#python-module-with-cout"><span class="toc-number">3.1.</span> <span class="toc-text">python module with cout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#py-scoped-ostream-redirect-in-pybind11"><span class="toc-number">3.2.</span> <span class="toc-text">py::scoped_ostream_redirect in pybind11</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#printf-fprintf-in-C-with-os-dup-os-dup2"><span class="toc-number">4.</span> <span class="toc-text">printf&#x2F;fprintf in C with os.dup&#x2F;os.dup2</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        /dev/null with pybind11 and unittest.mock
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">yumaokao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2018-07-28T15:15:45.000Z" itemprop="datePublished">2018-07-28</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/develop/">develop</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/c-11/" rel="tag">c++11</a>, <a class="tag-link-link" href="/tags/pybind11/" rel="tag">pybind11</a>, <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>, <a class="tag-link-link" href="/tags/unittest/" rel="tag">unittest</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>嗨嗨，我愛 <strong><a target="_blank" rel="noopener" href="https://github.com/pybind/pybind11">pybind11</a></strong>
+  <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file-import" class="svg-inline--fa fa-file-import fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M16 288c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h112v-64zm489-183L407.1 7c-4.5-4.5-10.6-7-17-7H384v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-153 31V0H152c-13.3 0-24 10.7-24 24v264h128v-65.2c0-14.3 17.3-21.4 27.4-11.3L379 308c6.6 6.7 6.6 17.4 0 24l-95.7 96.4c-10.1 10.1-27.4 3-27.4-11.3V352H128v136c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H376c-13.2 0-24-10.8-24-24z"></path></svg> <svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="python" class="svg-inline--fa fa-python fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z"></path></svg>！</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="Introduction"><a href="#Introduction" class="headerlink" title="Introduction"></a>Introduction</h1><p>最近工作上用 <strong><a target="_blank" rel="noopener" href="https://github.com/pybind/pybind11">pybind11</a></strong> 來接自己包出來會 Link 到 <a target="_blank" rel="noopener" href="https://www.tensorflow.org/">TensorFlow</a> 的
+C++ Library。覺得相當好用寫起來又乾淨，還可以傳入傳出 <strong><a target="_blank" rel="noopener" href="http://pybind11.readthedocs.io/en/stable/advanced/pycpp/numpy.html">NumPy</a></strong> 的 ndarray，
+實在是太方便了啊。</p>
+<p>另外也使用 Python 的 <strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.html">unittest</a></strong> 工具來寫許多的測試，
+反正有新功能要加就也會先寫些測試項目，另外也會驗證會不會影響到原本的功能。
+通常跑 <strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.html">unittest</a></strong> 的時候，除非要看特定跑過哪些項目，
+不然其實是希望只要印出跑完測試的結果就好，像是底下這樣，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ make tests</span><br><span class="line">.......s...........</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 19 tests <span class="keyword">in</span> 0.002s</span><br><span class="line"></span><br><span class="line">OK (skipped=1)</span><br></pre></td></tr></table></figure>
+<p>通常在可以控制的範圍下，都是沒問題的，像是有些 <strong>Warnings</strong> 只要修一下，
+就不會影響到上面乾淨的輸出結果，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">with</span> warnings.catch_warnings():</span><br><span class="line">    warnings.simplefilter(<span class="string">&quot;ignore&quot;</span>, category=PendingDeprecationWarning)</span><br><span class="line">    <span class="keyword">import</span> np.tools.tflite_runner</span><br></pre></td></tr></table></figure>
+<p>不過如剛剛有提到，有些其實是呼叫到別人的 Library ，
+尤其是一些提示錯誤的訊息像是檔案找不到之類的，本來就會想要從 <strong>stderr</strong> 印出來，
+在故意寫這種的測試項目時，其實就會看到錯誤訊息截斷了測試結果。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">python tests/mock_stdout_tests.py TestFooBarStdout.test_print_printf TestFooBarStdout.test_print_fprintf_stdout</span><br><span class="line"><span class="built_in">printf</span>: [test_print_printf]</span><br><span class="line">.fprintf_stdout: [test_print_fprintf_stdout]</span><br><span class="line">.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 2 tests <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+<blockquote><p>所以這篇會以 Python <strong>unittest</strong> 的角度，分別將 Python 的 print，C++ 的
+cout/cerr 以及 C 的 printf/fprintf 的結果導走，不讓這些訊息影響到測試的結果。</p>
+</blockquote>
+
+<h1 id="print-in-Python-with-unittest-mock"><a href="#print-in-Python-with-unittest-mock" class="headerlink" title="print in Python with unittest.mock"></a>print in Python with unittest.mock</h1><p><strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.mock.html">unittest.mock</a></strong> 是個可以在 <strong>Python</strong> 的 <strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.html">unittest</a></strong> 環境下，
+用假造的物件替換掉原本應該真正使用的部份，其實功能相當多，這邊只用來替換
+<strong>sys.stdout</strong> 就可以將 <strong>print()</strong> 的訊息截斷並拉回來，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestStdout</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&#x27;skip due to annoying stdout print&#x27;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_stdout</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;test_print_stdout&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&#x27;skip due to annoying stderr print&#x27;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_stderr</span>(<span class="params">self</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;test_print_stderr&#x27;</span>, file=sys.stderr)</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestMockStdout</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"><span class="meta">    @unittest.mock.patch(<span class="params"><span class="string">&#x27;sys.stdout&#x27;</span>, new_callable=io.StringIO</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_mock_stdout</span>(<span class="params">self, mock_stdout</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;test_print_mock_stdout&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.mock.patch(<span class="params"><span class="string">&#x27;sys.stderr&#x27;</span>, new_callable=io.StringIO</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_mock_stderr</span>(<span class="params">self, mock_stderr</span>):</span></span><br><span class="line">        print(<span class="string">&#x27;test_print_mock_stderr&#x27;</span>, file=sys.stderr)</span><br></pre></td></tr></table></figure>
+<p>如上面的測試項目，<strong>test_print_mock_stderr</strong> 就不會像 <strong>test_print_stderr</strong>
+一樣印出訊息，因為被 <strong>mock_stderr</strong> 給接過來了。如果都是純的<strong>Python</strong> 程式，
+這樣就非常足夠且方便使用。</p>
+<h1 id="cout-cerr-in-C-with-py-scoped-estream-redirect-in-pybind11"><a href="#cout-cerr-in-C-with-py-scoped-estream-redirect-in-pybind11" class="headerlink" title="cout/cerr in C++ with py::scoped_estream_redirect in pybind11"></a>cout/cerr in C++ with py::scoped_estream_redirect in pybind11</h1><h2 id="python-module-with-cout"><a href="#python-module-with-cout" class="headerlink" title="python module with cout"></a>python module with cout</h2><p>不過要是底下有些 <strong>python</strong> 的 <strong>module</strong> 是用 <strong>C++</strong> 接的，然後呼叫
+<strong>std::cout/std::cerr</strong> 印出訊息，上面的方法還不夠，為了驗證首先就用
+<strong><a target="_blank" rel="noopener" href="https://github.com/pybind/pybind11">pybind11</a></strong> 寫一個簡單的 <strong>module</strong>，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/pybind11.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/iostream.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> py = pybind11;</span><br><span class="line"></span><br><span class="line">PYBIND11_MODULE(print, m) &#123;</span><br><span class="line">    m.attr(<span class="string">&quot;__name__&quot;</span>) = <span class="string">&quot;foo.bar.print&quot;</span>;</span><br><span class="line">    m.def(<span class="string">&quot;cout&quot;</span>, [](<span class="keyword">const</span> <span class="keyword">char</span>* str) &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;cout: [&quot;</span> &lt;&lt; str &lt;&lt; <span class="string">&quot;]&quot;</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>也寫個 <strong>unittest</strong> 來測試一下，結果還真的 <strong>mock</strong> 不起來，
+所以把它 <strong>skip</strong> 掉了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestFooBarMockStdout</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&#x27;skip due to annoying stdout cout even mocked&#x27;</span></span>)</span></span><br><span class="line"><span class="meta">    @unittest.mock.patch(<span class="params"><span class="string">&#x27;sys.stdout&#x27;</span>, new_callable=io.StringIO</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_mock_cout</span>(<span class="params">self, mock_stdout</span>):</span></span><br><span class="line">        foo.bar.<span class="built_in">print</span>.cout(<span class="string">&#x27;test_print_mock_cout&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="py-scoped-ostream-redirect-in-pybind11"><a href="#py-scoped-ostream-redirect-in-pybind11" class="headerlink" title="py::scoped_ostream_redirect in pybind11"></a>py::scoped_ostream_redirect in pybind11</h2><p>其實 <strong><a target="_blank" rel="noopener" href="https://github.com/pybind/pybind11">pybind11</a></strong> 的 <a target="_blank" rel="noopener" href="http://pybind11.readthedocs.io/en/stable/advanced/pycpp/utilities.html#capturing-standard-output-from-ostream">Capturing standard output from ostream</a>，
+就有提到這個問題，</p>
+<blockquote>
+<p>Often, a library will use the streams std::cout and std::cerr to print,
+but this does not play well with Python’s standard sys.stdout and sys.stderr
+redirection.
+Replacing a library’s printing with py::print may not be feasible.</p>
+</blockquote>
+<p>所以 <strong><a target="_blank" rel="noopener" href="https://github.com/pybind/pybind11">pybind11</a></strong> 也有提供 <strong>py::scoped_ostream_redirect</strong> 的方法，
+將 <strong>std::cout</strong> 重導到 <strong>Python</strong> 的 <strong>sys.stdout</strong> 去，用
+<a target="_blank" rel="noopener" href="http://pybind11.readthedocs.io/en/stable/advanced/pycpp/utilities.html#capturing-standard-output-from-ostream">Capturing standard output from ostream</a>，改寫上面的範例，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/pybind11.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/iostream.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> py = pybind11;</span><br><span class="line"></span><br><span class="line">PYBIND11_MODULE(print, m) &#123;</span><br><span class="line">    m.attr(<span class="string">&quot;__name__&quot;</span>) = <span class="string">&quot;foo.bar.print&quot;</span>;</span><br><span class="line">    m.def(<span class="string">&quot;cout&quot;</span>, [](<span class="keyword">const</span> <span class="keyword">char</span>* str) &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;cout: [&quot;</span> &lt;&lt; str &lt;&lt; <span class="string">&quot;]&quot;</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; &#125;)</span><br><span class="line">     .def(<span class="string">&quot;cout_redirect&quot;</span>, [](<span class="keyword">const</span> <span class="keyword">char</span>* str) &#123;</span><br><span class="line">            <span class="built_in">std</span>::<span class="built_in">cout</span> &lt;&lt; <span class="string">&quot;cout redirect: [&quot;</span> &lt;&lt; str &lt;&lt; <span class="string">&quot;]&quot;</span> &lt;&lt; <span class="built_in">std</span>::<span class="built_in">endl</span>; &#125;,</span><br><span class="line">        py::call_guard&lt;py::scoped_ostream_redirect,</span><br><span class="line">                       py::scoped_estream_redirect&gt;());</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestFooBarMockStdout</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&#x27;skip due to annoying stdout cout even mocked&#x27;</span></span>)</span></span><br><span class="line"><span class="meta">    @unittest.mock.patch(<span class="params"><span class="string">&#x27;sys.stdout&#x27;</span>, new_callable=io.StringIO</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_mock_cout</span>(<span class="params">self, mock_stdout</span>):</span></span><br><span class="line">        foo.bar.<span class="built_in">print</span>.cout(<span class="string">&#x27;test_print_mock_cout&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.mock.patch(<span class="params"><span class="string">&#x27;sys.stdout&#x27;</span>, new_callable=io.StringIO</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_mock_cout_redirect</span>(<span class="params">self, mock_stdout</span>):</span></span><br><span class="line">        foo.bar.<span class="built_in">print</span>.cout_redirect(<span class="string">&#x27;test_print_mock_cout_redirect&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>呼叫有被 <strong>guard</strong> 的 <strong>cout_redirect</strong>，就可以順利地被 <strong>mock_stdout</strong> 接走了，
+當然如果沒有使用 <strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.mock.html">unittest.mock</a>**，訊息一樣是會顯示在 **sys.stdout</strong> 上。</p>
+<h1 id="printf-fprintf-in-C-with-os-dup-os-dup2"><a href="#printf-fprintf-in-C-with-os-dup-os-dup2" class="headerlink" title="printf/fprintf in C with os.dup/os.dup2"></a>printf/fprintf in C with os.dup/os.dup2</h1><p>但如果不是使用 <strong>std::cout/std::cerr</strong> ，而是使用 <strong>printf</strong> 或 <strong>fprintf</strong>
+的話，<strong>py::scoped_ostream_redirect</strong> 也沒有辦法
+<a target="_blank" rel="noopener" href="http://pybind11.readthedocs.io/en/stable/advanced/pycpp/utilities.html#capturing-standard-output-from-ostream">Capturing standard output from ostream</a> 也有說明，</p>
+<blockquote>
+<p>The above methods will not redirect C-level output to file descriptors, such as fprintf.
+For those cases, you’ll need to redirect the file descriptors either directly in C or with Python’s os.dup2 function in an operating-system dependent way.</p>
+</blockquote>
+<p>建議可以使用 <strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/os.html">os.dup2</a></strong> 自己接走。
+既然如此就自己來實作 <strong><code>&gt; /dev/null</code></strong> <strong><code>2&gt; /dev/null</code></strong> 的功能吧，
+也可以達到不影響 <strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.html">unittest</a></strong> 結果顯示。首先還是來準備一下用 <strong>fprint()</strong> 的
+<strong>Module</strong>，</p>
+<figure class="highlight cpp"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/pybind11.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;pybind11/iostream.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="keyword">namespace</span> py = pybind11;</span><br><span class="line"></span><br><span class="line">PYBIND11_MODULE(print, m) &#123;</span><br><span class="line">    m.attr(<span class="string">&quot;__name__&quot;</span>) = <span class="string">&quot;foo.bar.print&quot;</span>;</span><br><span class="line">    m.def(<span class="string">&quot;printf&quot;</span>, [](<span class="keyword">const</span> <span class="keyword">char</span>* str)&#123;</span><br><span class="line">            <span class="built_in">printf</span>(<span class="string">&quot;printf: [%s]\n&quot;</span>, str); &#125;)</span><br><span class="line">     .def(<span class="string">&quot;fprintf_stdout&quot;</span>, [](<span class="keyword">const</span> <span class="keyword">char</span>* str) &#123;</span><br><span class="line">             <span class="built_in">fprintf</span>(<span class="built_in">stdout</span>, <span class="string">&quot;fprintf_stdout: [%s]\n&quot;</span>, str); &#125;)</span><br><span class="line">     .def(<span class="string">&quot;fprintf_stderr&quot;</span>, [](<span class="keyword">const</span> <span class="keyword">char</span>* str) &#123;</span><br><span class="line">             <span class="built_in">fprintf</span>(<span class="built_in">stderr</span>, <span class="string">&quot;fprintf_stderr: [%s]\n&quot;</span>, str); &#125;)</span><br><span class="line">     .def(<span class="string">&quot;fflush_stdout&quot;</span>, []() &#123; fflush(<span class="built_in">stdout</span>); &#125;)</span><br><span class="line">     .def(<span class="string">&quot;fflush_stderr&quot;</span>, []() &#123; fflush(<span class="built_in">stderr</span>); &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>果然即便是用了 <strong><a target="_blank" rel="noopener" href="https://docs.python.org/3/library/unittest.mock.html">unittest.mock</a></strong> ，還是沒辦法擷取到，只好 <strong>unittest.skip</strong>。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestFooBarMockStdout</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&#x27;skip due to annoying stdout printf even mocked&#x27;</span></span>)</span></span><br><span class="line"><span class="meta">    @unittest.mock.patch(<span class="params"><span class="string">&#x27;sys.stdout&#x27;</span>, new_callable=io.StringIO</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_mock_printf</span>(<span class="params">self, mock_stdout</span>):</span></span><br><span class="line">        foo.bar.<span class="built_in">print</span>.printf(<span class="string">&#x27;test_print_mock_printf&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&#x27;skip due to annoying stdout fprintf even mocked&#x27;</span></span>)</span></span><br><span class="line"><span class="meta">    @unittest.mock.patch(<span class="params"><span class="string">&#x27;sys.stdout&#x27;</span>, new_callable=io.StringIO</span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_print_mock_fprintf_stdout</span>(<span class="params">self, mock_stdout</span>):</span></span><br><span class="line">        foo.bar.<span class="built_in">print</span>.fprintf_stdout(<span class="string">&#x27;test_print_mock_fprintf_stdout&#x27;</span>)</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<p>所以來開個 <strong>/dev/null</strong> 用 <strong>os.dup/os.dup2</strong> 自己做重導吧，
+然後跑完之後再恢復回來，該正常顯示的還是要可以顯示，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestFooBarStdout</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line"><span class="meta">    @unittest.skip(<span class="params"><span class="string">&#x27;skip due to annoying stdout cout at the end&#x27;</span></span>)</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_dup2_print_printf</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(os.devnull, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> null:</span><br><span class="line">            _dup = os.dup(<span class="number">1</span>)</span><br><span class="line">            os.dup2(null.fileno(), <span class="number">1</span>)</span><br><span class="line">            foo.bar.<span class="built_in">print</span>.printf(<span class="string">&#x27;test_dup2_print_printf&#x27;</span>)</span><br><span class="line">            null.flush()</span><br><span class="line">            os.dup2(_dup, <span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+<p>不過這樣還是有點問題，因為導到 <strong>/dev/null</strong> 的 <strong>stdout</strong> ，
+雖然沒有馬上印在螢怒上，但還是會在程式結束之後再刷出來，
+因為這時候為了其他正常的顯示需要，會將 <strong>stdout</strong> 接回來，
+所以最後還是會在程式結束之後印，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">$ python tests/mock_stdout_tests.py TestFooBarStdout.test_print_fprintf_stdout</span><br><span class="line">fprintf_stdout: [test_print_fprintf_stdout]</span><br><span class="line">.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 1 <span class="built_in">test</span> <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">$ python tests/mock_stdout_tests.py TestFooBarStdout.test_dup2_print_fprintf_stdout</span><br><span class="line">.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 1 <span class="built_in">test</span> <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line">fprintf_stdout: [test_dup2_print_fprintf_stdout]</span><br></pre></td></tr></table></figure>
+<p>這時候可以利用之前加的 <strong>fflush_stdout()/fflush_stderr()**，
+在切換 **stdout/stderr</strong> 的時候強制刷一下，</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">TestFooBarStdout</span>(<span class="params">unittest.TestCase</span>):</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_dup2_print_printf_and_fflush_stdout</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(os.devnull, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> null:</span><br><span class="line">            _dup = os.dup(<span class="number">1</span>)</span><br><span class="line">            os.dup2(null.fileno(), <span class="number">1</span>)</span><br><span class="line">            foo.bar.<span class="built_in">print</span>.printf(<span class="string">&#x27;test_dup2_print_printf_and_fflush_stdout&#x27;</span>)</span><br><span class="line">            foo.bar.<span class="built_in">print</span>.fflush_stdout()</span><br><span class="line">            null.flush()</span><br><span class="line">            os.dup2(_dup, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_dup2_print_fprintf_stdout_and_fflush_stdout</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(os.devnull, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> null:</span><br><span class="line">            _dup = os.dup(<span class="number">1</span>)</span><br><span class="line">            os.dup2(null.fileno(), <span class="number">1</span>)</span><br><span class="line">            foo.bar.<span class="built_in">print</span>.fprintf_stdout(<span class="string">&#x27;test_dup2_print_fprintf_stdout_and_fflush_stdout&#x27;</span>)</span><br><span class="line">            foo.bar.<span class="built_in">print</span>.fflush_stdout()</span><br><span class="line">            null.flush()</span><br><span class="line">            os.dup2(_dup, <span class="number">1</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">test_dup2_print_fprintf_stderr_and_fflush_stderr</span>(<span class="params">self</span>):</span></span><br><span class="line">        <span class="keyword">with</span> <span class="built_in">open</span>(os.devnull, <span class="string">&#x27;w&#x27;</span>) <span class="keyword">as</span> null:</span><br><span class="line">            _dup = os.dup(<span class="number">2</span>)</span><br><span class="line">            os.dup2(null.fileno(), <span class="number">2</span>)</span><br><span class="line">            foo.bar.<span class="built_in">print</span>.fprintf_stderr(<span class="string">&#x27;test_dup2_print_fprintf_stderr_and_fflush_stderr&#x27;</span>)</span><br><span class="line">            foo.bar.<span class="built_in">print</span>.fflush_stderr()</span><br><span class="line">            null.flush()</span><br><span class="line">            os.dup2(_dup, <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<p>如此一來就可以達到濾掉 <strong>printf()/fprintf()</strong> 的訊息，不會影響到結果顯示了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">$ python tests/mock_stdout_tests.py TestFooBarStdout.test_dup2_print_printf_and_fflush_stdout</span><br><span class="line">.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 1 <span class="built_in">test</span> <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">$ python tests/mock_stdout_tests.py TestFooBarStdout.test_dup2_print_fprintf_stdout_and_fflush_stdout</span><br><span class="line">.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 1 <span class="built_in">test</span> <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br><span class="line"></span><br><span class="line">$ python tests/mock_stdout_tests.py TestFooBarStdout.test_dup2_print_fprintf_stderr_and_fflush_stderr</span><br><span class="line">.</span><br><span class="line">----------------------------------------------------------------------</span><br><span class="line">Ran 1 <span class="built_in">test</span> <span class="keyword">in</span> 0.000s</span><br><span class="line"></span><br><span class="line">OK</span><br></pre></td></tr></table></figure>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#Introduction"><span class="toc-number">1.</span> <span class="toc-text">Introduction</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#print-in-Python-with-unittest-mock"><span class="toc-number">2.</span> <span class="toc-text">print in Python with unittest.mock</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#cout-cerr-in-C-with-py-scoped-estream-redirect-in-pybind11"><span class="toc-number">3.</span> <span class="toc-text">cout&#x2F;cerr in C++ with py::scoped_estream_redirect in pybind11</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#python-module-with-cout"><span class="toc-number">3.1.</span> <span class="toc-text">python module with cout</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#py-scoped-ostream-redirect-in-pybind11"><span class="toc-number">3.2.</span> <span class="toc-text">py::scoped_ostream_redirect in pybind11</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#printf-fprintf-in-C-with-os-dup-os-dup2"><span class="toc-number">4.</span> <span class="toc-text">printf&#x2F;fprintf in C with os.dup&#x2F;os.dup2</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&text=/dev/null with pybind11 and unittest.mock"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&is_video=false&description=/dev/null with pybind11 and unittest.mock"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=/dev/null with pybind11 and unittest.mock&body=Check out this article: http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&title=/dev/null with pybind11 and unittest.mock"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&name=/dev/null with pybind11 and unittest.mock&description=&lt;blockquote&gt;
+&lt;p&gt;嗨嗨，我愛 &lt;strong&gt;&lt;a href=&#34;https://github.com/pybind/pybind11&#34;&gt;pybind11&lt;/a&gt;&lt;/strong&gt;
+  &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;file-import&#34; class=&#34;svg-inline--fa fa-file-import fa-w-16&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 512 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M16 288c-8.8 0-16 7.2-16 16v32c0 8.8 7.2 16 16 16h112v-64zm489-183L407.1 7c-4.5-4.5-10.6-7-17-7H384v128h128v-6.1c0-6.3-2.5-12.4-7-16.9zm-153 31V0H152c-13.3 0-24 10.7-24 24v264h128v-65.2c0-14.3 17.3-21.4 27.4-11.3L379 308c6.6 6.7 6.6 17.4 0 24l-95.7 96.4c-10.1 10.1-27.4 3-27.4-11.3V352H128v136c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H376c-13.2 0-24-10.8-24-24z&#34;&gt;&lt;/path&gt;&lt;/svg&gt; &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fab&#34; data-icon=&#34;python&#34; class=&#34;svg-inline--fa fa-python fa-w-14&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 448 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M439.8 200.5c-7.7-30.9-22.3-54.2-53.4-54.2h-40.1v47.4c0 36.8-31.2 67.8-66.8 67.8H172.7c-29.2 0-53.4 25-53.4 54.3v101.8c0 29 25.2 46 53.4 54.3 33.8 9.9 66.3 11.7 106.8 0 26.9-7.8 53.4-23.5 53.4-54.3v-40.7H226.2v-13.6h160.2c31.1 0 42.6-21.7 53.4-54.2 11.2-33.5 10.7-65.7 0-108.6zM286.2 404c11.1 0 20.1 9.1 20.1 20.3 0 11.3-9 20.4-20.1 20.4-11 0-20.1-9.2-20.1-20.4.1-11.3 9.1-20.3 20.1-20.3zM167.8 248.1h106.8c29.7 0 53.4-24.5 53.4-54.3V91.9c0-29-24.4-50.7-53.4-55.6-35.8-5.9-74.7-5.6-106.8.1-45.2 8-53.4 24.7-53.4 55.6v40.7h106.9v13.6h-147c-31.1 0-58.3 18.7-66.8 54.2-9.8 40.7-10.2 66.1 0 108.6 7.6 31.6 25.7 54.2 56.8 54.2H101v-48.8c0-35.3 30.5-66.4 66.8-66.4zm-6.7-142.6c-11.1 0-20.1-9.1-20.1-20.3.1-11.3 9-20.4 20.1-20.4 11 0 20.1 9.2 20.1 20.4s-9 20.3-20.1 20.3z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;！&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/develop/dev-null-with-pybind11-and-unittest-mock/&t=/dev/null with pybind11 and unittest.mock"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2020
+    yumaokao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

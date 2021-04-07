@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="嗨嗨，我愛 Termux ！">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Termux Environment Setup Script">
+<meta property="og:url" content="http://yumaokao.github.io/tw/termux/termux-env-setup/index.html">
+<meta property="og:site_name" content="YMK&#39;s Blog">
+<meta property="og:description" content="嗨嗨，我愛 Termux ！">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-05-08T13:29:00.000Z">
+<meta property="article:modified_time" content="2019-11-28T07:35:34.000Z">
+<meta property="article:author" content="yumaokao">
+<meta property="article:tag" content="termux">
+<meta property="article:tag" content="commandline">
+<meta property="article:tag" content="android">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Category: termux</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <style>
+      svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.225em;
+}
+.svg-inline--fa.fa-w-1 {
+  width: 0.0625em;
+}
+.svg-inline--fa.fa-w-2 {
+  width: 0.125em;
+}
+.svg-inline--fa.fa-w-3 {
+  width: 0.1875em;
+}
+.svg-inline--fa.fa-w-4 {
+  width: 0.25em;
+}
+.svg-inline--fa.fa-w-5 {
+  width: 0.3125em;
+}
+.svg-inline--fa.fa-w-6 {
+  width: 0.375em;
+}
+.svg-inline--fa.fa-w-7 {
+  width: 0.4375em;
+}
+.svg-inline--fa.fa-w-8 {
+  width: 0.5em;
+}
+.svg-inline--fa.fa-w-9 {
+  width: 0.5625em;
+}
+.svg-inline--fa.fa-w-10 {
+  width: 0.625em;
+}
+.svg-inline--fa.fa-w-11 {
+  width: 0.6875em;
+}
+.svg-inline--fa.fa-w-12 {
+  width: 0.75em;
+}
+.svg-inline--fa.fa-w-13 {
+  width: 0.8125em;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+}
+.svg-inline--fa.fa-w-15 {
+  width: 0.9375em;
+}
+.svg-inline--fa.fa-w-16 {
+  width: 1em;
+}
+.svg-inline--fa.fa-w-17 {
+  width: 1.0625em;
+}
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
+}
+.svg-inline--fa.fa-w-19 {
+  width: 1.1875em;
+}
+.svg-inline--fa.fa-w-20 {
+  width: 1.25em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-border {
+  height: 1.5em;
+}
+.svg-inline--fa.fa-li {
+  width: 2em;
+}
+.svg-inline--fa.fa-fw {
+  width: 1.25em;
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: 0.25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  -webkit-filter: none;
+          filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse {
+  color: #fff;
+}
+    </style>
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/tw/termux/termux-so-atexit/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/tw/terminal/liveabc-audios-fetcher/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/termux/termux-env-setup/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&text=Termux Environment Setup Script"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&is_video=false&description=Termux Environment Setup Script"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Termux Environment Setup Script&body=Check out this article: http://yumaokao.github.io/tw/termux/termux-env-setup/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&name=Termux Environment Setup Script&description=&lt;blockquote&gt;
+&lt;p&gt;嗨嗨，我愛 &lt;strong&gt;&lt;a href=&#34;https://termux.com/&#34;&gt;Termux&lt;/a&gt;&lt;/strong&gt; &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;terminal&#34; class=&#34;svg-inline--fa fa-terminal fa-w-20&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 640 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M257.981 272.971L63.638 467.314c-9.373 9.373-24.569 9.373-33.941 0L7.029 444.647c-9.357-9.357-9.375-24.522-.04-33.901L161.011 256 6.99 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L257.981 239.03c9.373 9.372 9.373 24.568 0 33.941zM640 456v-32c0-13.255-10.745-24-24-24H312c-13.255 0-24 10.745-24 24v32c0 13.255 10.745 24 24 24h304c13.255 0 24-10.745 24-24z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;！&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/termux/termux-env-setup/&t=Termux Environment Setup Script"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Termux-Environment-Setup"><span class="toc-number">1.</span> <span class="toc-text">Termux Environment Setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#About-Termux"><span class="toc-number">2.</span> <span class="toc-text">About Termux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Termux-Environment-Setup-Script"><span class="toc-number">3.</span> <span class="toc-text">Termux Environment Setup Script</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Initial-script"><span class="toc-number">3.1.</span> <span class="toc-text">Initial script</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Y-n-in-apt-install"><span class="toc-number">3.2.</span> <span class="toc-text">[Y]&#x2F;n in apt install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yes-and-password-in-ssh"><span class="toc-number">3.3.</span> <span class="toc-text">(yes) and password: in ssh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Here-document-to-config-file"><span class="toc-number">3.4.</span> <span class="toc-text">Here document to config file</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multiple-stages-before-after-chroot"><span class="toc-number">4.</span> <span class="toc-text">Multiple stages before&#x2F;after chroot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shebang"><span class="toc-number">4.1.</span> <span class="toc-text">shebang</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chroot"><span class="toc-number">4.2.</span> <span class="toc-text">chroot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chroot-in-script"><span class="toc-number">4.3.</span> <span class="toc-text">chroot in script</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutiple-stages"><span class="toc-number">4.4.</span> <span class="toc-text">mutiple stages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#termux-exec-2018"><span class="toc-number">4.5.</span> <span class="toc-text">termux-exec (2018)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#termux-exec"><span class="toc-number">4.5.1.</span> <span class="toc-text">termux-exec</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#StrictHostKeyChecking"><span class="toc-number">4.5.2.</span> <span class="toc-text">StrictHostKeyChecking</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#here-document-for-private-key"><span class="toc-number">4.5.3.</span> <span class="toc-text">here document for private key</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#repo-and-zsh"><span class="toc-number">4.5.4.</span> <span class="toc-text">repo and zsh</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repo-2019"><span class="toc-number">4.6.</span> <span class="toc-text">repo (2019)</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Termux Environment Setup Script
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">yumaokao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-05-08T13:29:00.000Z" itemprop="datePublished">2017-05-08</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/termux/">termux</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/android/" rel="tag">android</a>, <a class="tag-link-link" href="/tags/commandline/" rel="tag">commandline</a>, <a class="tag-link-link" href="/tags/termux/" rel="tag">termux</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p>嗨嗨，我愛 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="terminal" class="svg-inline--fa fa-terminal fa-w-20" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512"><path fill="currentColor" d="M257.981 272.971L63.638 467.314c-9.373 9.373-24.569 9.373-33.941 0L7.029 444.647c-9.357-9.357-9.375-24.522-.04-33.901L161.011 256 6.99 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L257.981 239.03c9.373 9.372 9.373 24.568 0 33.941zM640 456v-32c0-13.255-10.745-24-24-24H312c-13.255 0-24 10.745-24 24v32c0 13.255 10.745 24 24 24h304c13.255 0 24-10.745 24-24z"></path></svg>！</p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="Termux-Environment-Setup"><a href="#Termux-Environment-Setup" class="headerlink" title="Termux Environment Setup"></a>Termux Environment Setup</h2><p>因為最近買了一隻想拿來亂玩亂刷 ROM 的手機，每次刷都有可能會清掉裡面所存好的資料，
+那就會需要重新建立帳號或是環境。其他的程式可能沒有太大的問題，
+雖然也沒有使用鈦備份之類的，但大多是登入帳號頂多稍微選個佈景主題之類的就好了，
+但還是有些需要有比較多設定，就有點麻煩。</p>
+<blockquote><p>而 <strong>Termux</strong> 的環境設定會是需要花比較多步驟才能達到順手的地步。</p>
+</blockquote>
+
+<p>所以就寫了一個環境設定自動化的 <strong>Script</strong>，以減少設定成本，
+可以好好來刷機而不用擔心設定好麻煩。</p>
+<h2 id="About-Termux"><a href="#About-Termux" class="headerlink" title="About Termux"></a>About Termux</h2><p><strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 是一個在 Android 下的終端機模擬器，但它又附上了一個可以用擴充的套件系統，
+就像使用一般 <a target="_blank" rel="noopener" href="https://www.ubuntu.com/">Ubuntu</a>/<a target="_blank" rel="noopener" href="https://www.debian.org/">Debian</a> Linux 一樣，透過 <a target="_blank" rel="noopener" href="https://en.wikipedia.org/wiki/Advanced_Packaging_Tool">apt</a> 這個命令，
+就可以經由網路安裝或是更新程式了。比起之前用的方法，大致上都是在裡面掛上一個真正的
+<strong>Linux</strong> 影像檔，然後再 <strong><code>chroot</code></strong> 過去，**<a target="_blank" rel="noopener" href="https://termux.com/">Termux</a>** 這種明顯跟原本的
+Android 系統就比較好的整合性，比如可以在 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 裡面寫 Script 分享網址，
+或是查詢聯絡人之類的，都可以做得到。</p>
+<blockquote><p>關於 <strong>Termux</strong> 一定會寫好幾篇的。</p>
+</blockquote>
+
+<h2 id="Termux-Environment-Setup-Script"><a href="#Termux-Environment-Setup-Script" class="headerlink" title="Termux Environment Setup Script"></a>Termux Environment Setup Script</h2><p>因為設定 <strong>Script</strong> 相當個人化，雖然已經儘量減少洩漏但還是有些風險，
+所以就沒有放出來公開分享。不過還是會把裡面有用到值得一提的部份寫一下。</p>
+<h3 id="Initial-script"><a href="#Initial-script" class="headerlink" title="Initial script"></a>Initial script</h3><p>首先是一開始裝完 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 之後，是一個很乾淨的系統狀態下，
+要怎麼很快速簡潔又安全地執行一個 <strong>Script</strong> 呢？就是放到一個自己的網頁位址上，
+然後用 goo.gl 縮個網址，就可以得到一組很簡單的短網址，
+像是這樣 <strong><a target="_blank" rel="noopener" href="http://goo.gl/123abc">http://goo.gl/123abc</a></strong>。</p>
+<p>而乾淨的 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 系統中，已經有一個 <a target="_blank" rel="noopener" href="https://www.busybox.net/">Busybox</a> 的 <strong><code>wget</code></strong> 了，
+所以只要這樣就可以：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ rm 123abc; wget goo.gl/123abc &amp;&amp; bash 123abc</span><br></pre></td></tr></table></figure>
+<h3 id="Y-n-in-apt-install"><a href="#Y-n-in-apt-install" class="headerlink" title="[Y]/n in apt install"></a>[Y]/n in apt install</h3><p>接下來要安裝以及更新一些必要的套件，但通常下 <strong><code>apt install</code></strong> 的命令的時候，
+都會再問一下說有確定要裝嗎 <strong><code>[Y]/n</code>**？每次都要按個 **<code>Enter</code>**，也是有點麻煩。
+關於這個部份，</strong><code>apt</code>** 有提供一個參數 <strong><code>-y</code>**，就可以預設是 **yes</strong> 了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ apt upgrade -y</span><br><span class="line">$ apt install -y proot</span><br></pre></td></tr></table></figure>
+<h3 id="yes-and-password-in-ssh"><a href="#yes-and-password-in-ssh" class="headerlink" title="(yes) and password: in ssh"></a>(yes) and password: in ssh</h3><p>一樣地，**<code>ssh</code>** 與 <strong><code>scp</code></strong> 命令，也會遇到第一次連線的時候，會需要輸入
+<strong><code>(yes)</code>**，已建立新的連線。而在還沒有把 **private key</strong> 抓回來之前，
+也會需要輸入一次密碼，遇到了就會停下來等待輸入才有辦法繼續，不太自動。</p>
+<p>所以會在一開始的時候，就先把密碼問一下，然後再利用 <strong><code>sshpass</code></strong> 
+這個工具來解決第一次需要密碼的問題。而第一次的連線的時候，可以下
+<strong>StrictHostKeyChecking=no</strong> 參數，避免要等待輸入 **<code>(yes)</code>**。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">echo</span> <span class="string">&quot;Please input password for the first time&quot;</span></span><br><span class="line"><span class="built_in">read</span> -s P</span><br><span class="line"></span><br><span class="line">[ -f <span class="variable">$HOME</span>/.ssh/id_rsa ] &amp;&amp; SSHPASS=<span class="string">&quot;&quot;</span> || SSHPASS=<span class="string">&quot;sshpass -p <span class="variable">$P</span>&quot;</span></span><br><span class="line"><span class="variable">$SSHPASS</span> ssh -o StrictHostKeyChecking=no sshserver ls</span><br></pre></td></tr></table></figure>
+<h3 id="Here-document-to-config-file"><a href="#Here-document-to-config-file" class="headerlink" title="Here document to config file"></a>Here document to config file</h3><p>因為 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 環境跟 <a target="_blank" rel="noopener" href="https://www.ubuntu.com/">Ubuntu</a>/<a target="_blank" rel="noopener" href="https://www.debian.org/">Debian</a> Linux 環境還是有點不一樣，
+有些程式所參考的位置，在 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 就不一定會出現。像是 <strong><code>/etc/shells</code></strong>
+這個檔案會紀錄著 Linux 系統中所有可能的 shells，而 <a target="_blank" rel="noopener" href="http://ohmyz.sh/">oh-my-zsh</a>
+安裝的時候會檢查這個檔案中有沒有 <a target="_blank" rel="noopener" href="http://www.zsh.org/">zsh</a>，不然就不裝了。</p>
+<p>只好自己產生一個：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># shells</span></span><br><span class="line">cat &gt; /etc/shells &lt;&lt;<span class="string">EOF</span></span><br><span class="line"><span class="string"># /etc/shells: valid login shells</span></span><br><span class="line"><span class="string">/bin/sh</span></span><br><span class="line"><span class="string">/bin/bash</span></span><br><span class="line"><span class="string">/usr/bin/tmux</span></span><br><span class="line"><span class="string">/bin/zsh</span></span><br><span class="line"><span class="string">/use/bin/zsh</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h2 id="Multiple-stages-before-after-chroot"><a href="#Multiple-stages-before-after-chroot" class="headerlink" title="Multiple stages before/after chroot"></a>Multiple stages before/after chroot</h2><p>好的，問題來了。
+如果進去到 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 的視窗中，就會發現它的確還是在 <strong>Android</strong> 底下，
+不信可以先 <strong><code>ls /</code></strong> 看看，完全就是個 <strong>Android</strong> <strong>根目錄</strong>的樣子。</p>
+<h3 id="shebang"><a href="#shebang" class="headerlink" title="shebang"></a>shebang</h3><p>這代表一件事，如果沒有特別處理，開頭長得像這樣的 <strong>Script</strong> 是沒有辦法直接執行的。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br></pre></td></tr></table></figure>
+<p>這東西有個專有名詞叫作 **<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Shebang">Shebang</a>**。</p>
+<p><strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 有提供一個指令 <strong><code>termux-fix-shebang</code>**，它會自動把上面的
+**Shebang</strong> 改成 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 的路徑：</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/data/data/com.termux/files/user/bin/bash</span></span><br></pre></td></tr></table></figure>
+<h3 id="chroot"><a href="#chroot" class="headerlink" title="chroot"></a>chroot</h3><blockquote><p>但是每個 <strong>Script</strong> 都需要 <strong>fix</strong> 的話，相當不好用啊。</p>
+</blockquote>
+<p>所以 <a target="_blank" rel="noopener" href="https://termux.com/">Termux</a> 也有另外一個指令 <strong><code>termux-chroot</code>**，是基於 **<code>proot</code></strong>
+包裝成的 <strong>chroot</strong> 環境，其實就是把<strong>根目錄</strong>換成剛剛的 <strong>/data/data/com.termux/files</strong>。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ termux-chroot</span><br><span class="line">$ ls /</span><br><span class="line">bin dev home proc storage tmp var</span><br><span class="line">data etc lib share system usr</span><br></pre></td></tr></table></figure>
+<h3 id="chroot-in-script"><a href="#chroot-in-script" class="headerlink" title="chroot in script"></a>chroot in script</h3><p>在安裝個人環境的 <strong>Setup Script</strong>，會需要進入到 <strong><code>termux-chroot</code></strong> 環境中的
+不然會遇到路徑找不到的錯誤，像是用 <strong><code>repo init -u </code></strong> 的時候，就會有問題。</p>
+<p>但是直接寫在 <strong><code>termux-chroot</code></strong> 後面命令，是不會被執行到的，更正確地說，
+是離開了 <strong>chroot</strong> 環境才會繼續執行下去。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ cat setup.sh</span><br><span class="line">...</span><br><span class="line">termux-chroot</span><br><span class="line">ls /</span><br></pre></td></tr></table></figure>
+<p>這很常見，因為 <strong><code>termux-chroot</code></strong> 會產生一個互動的 <strong>login shell</strong>。
+通常 <strong><code>chroot</code></strong> 會可以接受參數，指定新環境下要跑的命令。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ chroot --<span class="built_in">help</span></span><br><span class="line">Usage: chroot [OPTION] NEWROOT [COMMAND [ARG]...]</span><br></pre></td></tr></table></figure>
+<p>不過 <strong><code>termux-chroot</code></strong> 就不允許這樣了，看了一下原始碼，是不接受參數的。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> != 0 ]; <span class="keyword">then</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;termux-chroot: Setup a chroot to mimic a normal Linux file system&quot;</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;&quot;</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;Execute without arguments to run a chroot with traditional file system&quot;</span></span><br><span class="line">	<span class="built_in">echo</span> <span class="string">&quot;hierarchy (having e.g. the folders /bin, /etc and /usr) within Termux.&quot;</span></span><br><span class="line">	<span class="built_in">exit</span></span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"></span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">ARGS=<span class="string">&quot;<span class="variable">$ARGS</span> <span class="variable">$PROGRAM</span> -l&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">export</span> HOME=/home</span><br><span class="line"><span class="variable">$PREFIX</span>/bin/proot <span class="variable">$ARGS</span></span><br></pre></td></tr></table></figure>
+<p>雖然 <strong><code>termux-chroot</code></strong> 不行，但原始碼看得出來 <strong><code>proot</code></strong> 是可以指定
+<strong>$PROGRAM</strong> 等等命令的，因此只要照抄 <strong><code>termux-chroot</code></strong> 的前面部份，
+獲得到 <strong>$ARGS</strong> 變數，換成自己的，就可以寫在 <strong>Script</strong> 自動執行 <strong>chroot</strong>
+後的命令了。</p>
+<h3 id="mutiple-stages"><a href="#mutiple-stages" class="headerlink" title="mutiple stages"></a>mutiple stages</h3><p>所以最後的 <strong>Setup Script</strong> 架構大概長成這樣子，分成兩階段執行，
+這樣就可以放下去跑，然後休息一下，等它們全部設定完就好了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="title">zero</span></span>() &#123;</span><br><span class="line">  <span class="comment"># before termux-chroot</span></span><br><span class="line">  apt install proot</span><br><span class="line"></span><br><span class="line">  ...</span><br><span class="line"></span><br><span class="line">  prepare-termux-chroot</span><br><span class="line">  <span class="built_in">export</span> HOME=/home</span><br><span class="line">  <span class="variable">$PREFIX</span>/bin/proot <span class="variable">$ARGS</span> /bin/bash <span class="variable">$0</span> 1</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="title">first</span></span>() &#123;</span><br><span class="line">  <span class="comment"># after termux-chroot</span></span><br><span class="line">  ls /</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> -eq 0 ]; <span class="keyword">then</span></span><br><span class="line">  zero</span><br><span class="line"><span class="keyword">fi</span></span><br><span class="line"><span class="keyword">if</span> [ <span class="variable">$#</span> -eq 1 ]; <span class="keyword">then</span></span><br><span class="line">  first</span><br><span class="line"><span class="keyword">fi</span></span><br></pre></td></tr></table></figure>
+<h3 id="termux-exec-2018"><a href="#termux-exec-2018" class="headerlink" title="termux-exec (2018)"></a>termux-exec (2018)</h3><p>Sat, 28 Jul 2018 23:22:14 +0800</p>
+<p>其實這個 setup script ，現在已經不是上面寫的這種程序了，現在的版本簡單很多，
+大致上改了底下幾個部份：</p>
+<h4 id="termux-exec"><a href="#termux-exec" class="headerlink" title="termux-exec"></a>termux-exec</h4><p>首先就是使用 <strong><a target="_blank" rel="noopener" href="https://github.com/termux/termux-exec">termux-exec</a></strong> 取代了 <strong><a target="_blank" rel="noopener" href="https://github.com/termux/proot">proot</a>**，</strong>proot**
+在某些 Android O 的手機上會有權限的問題，原本需要使用 <strong>proot</strong>
+的地方現在可以使用 <strong><a target="_blank" rel="noopener" href="https://github.com/termux/termux-exec">termux-exec</a></strong> 來替換了喔，問題就是發生在許多的
+<strong>Linux scripts</strong> 寫的時候都會想要先去找** /bin/sh 或是 /usr/bin/env <strong>，
+這個上面 **<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/Shebang">Shebang</a></strong> 也有提到。偏偏 <em>Android</em> 並不是這樣放的
+<strong><a target="_blank" rel="noopener" href="https://github.com/termux/termux-exec">termux-exec</a></strong> 利用 <strong>LD_PRELOAD</strong> 換掉 <strong>execve()</strong> ，然後接到
+<strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 環境相對應的執行檔，是個相當漂亮又乾淨的作法。</p>
+<h4 id="StrictHostKeyChecking"><a href="#StrictHostKeyChecking" class="headerlink" title="StrictHostKeyChecking"></a>StrictHostKeyChecking</h4><p><strong><code>ssh</code></strong> 在第一次連接到 <strong>Host</strong> 的時候都會問像下面的訊息，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">The authenticity of host hostname <span class="string">&#x27;(192.188.1.1)&#x27;</span> can\<span class="string">&#x27;t be established.</span></span><br><span class="line"><span class="string">ECDSA key fingerprint is SHA256:+xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.</span></span><br><span class="line"><span class="string">Are you sure you want to continue connecting (yes/no)?</span></span><br></pre></td></tr></table></figure>
+<p>其實可以直接將 <strong>StrictHostKeyChecking no</strong> 寫進 <strong>.ssh/config</strong> 初始設定裡，
+避免 setup script 卡住等待回應，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">[ -d <span class="variable">$HOME</span>/.ssh ] || mkdir -p <span class="variable">$HOME</span>/.ssh</span><br><span class="line">cat &gt; <span class="variable">$HOME</span>/.ssh/config &lt;&lt; <span class="string">EOF</span></span><br><span class="line"><span class="string">Host git</span></span><br><span class="line"><span class="string">Hostname git.domain.name</span></span><br><span class="line"><span class="string">User git</span></span><br><span class="line"><span class="string">StrictHostKeyChecking no</span></span><br><span class="line"><span class="string">EOF</span></span><br></pre></td></tr></table></figure>
+<h4 id="here-document-for-private-key"><a href="#here-document-for-private-key" class="headerlink" title="here document for private key"></a>here document for private key</h4><p>本來是另外要抓 <strong>ssh</strong> 的 private key 回來放的，但其實也是可以利用
+**<a target="_blank" rel="noopener" href="http://tldp.org/LDP/abs/html/here-docs.html">Here Documents</a>**，直接嵌入在這個 setup script 裡，如此一來只要抓取一個檔案就夠，
+當然這個檔案其實也就不好放在大家都看得到的地方了。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># use here document with id_rsa-termux</span></span><br><span class="line">cat &gt; <span class="variable">$HOME</span>/.ssh/id_rsa &lt;&lt; <span class="string">EOF_ID_RSA</span></span><br><span class="line"><span class="string">-----BEGIN RSA PRIVATE KEY-----</span></span><br><span class="line"><span class="string">...</span></span><br><span class="line"><span class="string">-----END RSA PRIVATE KEY-----</span></span><br><span class="line"><span class="string">EOF_ID_RSA</span></span><br><span class="line">mod 600 <span class="variable">$HOME</span>/.ssh/id_rsa</span><br></pre></td></tr></table></figure>
+<h4 id="repo-and-zsh"><a href="#repo-and-zsh" class="headerlink" title="repo and zsh"></a>repo and zsh</h4><p>因為 <strong><a target="_blank" rel="noopener" href="https://termux.com/">Termux</a></strong> 上的 <strong>/usr/bin/env python</strong> 是 <strong>python3</strong>，所以抓下來的
+<strong>repo</strong> 要提換成 <strong>python2</strong>，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p <span class="variable">$HOME</span>/bin</span><br><span class="line">curl https://storage.googleapis.com/git-repo-downloads/repo | sed <span class="string">&#x27;s/env python$/env python2/g&#x27;</span> &gt; <span class="variable">$HOME</span>/bin/repo</span><br><span class="line">chmod a+x <span class="variable">$HOME</span>/bin/repo</span><br></pre></td></tr></table></figure>
+<p>而在設定 <strong><a target="_blank" rel="noopener" href="http://ohmyz.sh/">oh-my-zsh</a></strong> 的時候，本來是需要檢查 <strong>/etc/shells</strong>，現在則改用替換
+<strong><a target="_blank" rel="noopener" href="http://ohmyz.sh/">oh-my-zsh</a></strong> 的安裝 script 方式，避掉這個檢查，</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">zsh: SHELL:=bash</span><br><span class="line">zsh:</span><br><span class="line">        [ -d ~/.oh-my-zsh ] || &#123; \</span><br><span class="line">                <span class="keyword">if</span> [ <span class="string">&quot;$<span class="variable">$OSTYPE</span>&quot;</span> = linux-android ]; <span class="keyword">then</span> \</span><br><span class="line">                        curl -L http://install.ohmyz.sh | sed <span class="string">&#x27;s/chsh -s.*$$/chsh -s zsh/g&#x27;</span> | bash; \</span><br><span class="line">                <span class="keyword">else</span> \</span><br><span class="line">                        curl -L http://install.ohmyz.sh | bash; \</span><br><span class="line">                <span class="keyword">fi</span> \</span><br><span class="line">        &#125;</span><br></pre></td></tr></table></figure>
+<h3 id="repo-2019"><a href="#repo-2019" class="headerlink" title="repo (2019)"></a>repo (2019)</h3><p>Thu, 28 Nov 2019 23:35:34 +0800</p>
+<p>某次更新的時候，發覺 <strong>repo</strong> 自己抓新的 <strong>scripts</strong>，就出現找不到 <strong>env python</strong>
+類似的訊息，就不能正常使用了。又不想要弄個 <strong>proot</strong>，所以趁這次機會就把 <strong>repo</strong>
+換成 <strong>git</strong> 的 <strong>submodules</strong>，這樣只要 <strong>git</strong> 一隻程式就可以了。<br>後來也為了自己的 <strong>submodules</strong> 寫了一些幫忙的工具，也是相當方便。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Termux-Environment-Setup"><span class="toc-number">1.</span> <span class="toc-text">Termux Environment Setup</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#About-Termux"><span class="toc-number">2.</span> <span class="toc-text">About Termux</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Termux-Environment-Setup-Script"><span class="toc-number">3.</span> <span class="toc-text">Termux Environment Setup Script</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Initial-script"><span class="toc-number">3.1.</span> <span class="toc-text">Initial script</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Y-n-in-apt-install"><span class="toc-number">3.2.</span> <span class="toc-text">[Y]&#x2F;n in apt install</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#yes-and-password-in-ssh"><span class="toc-number">3.3.</span> <span class="toc-text">(yes) and password: in ssh</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Here-document-to-config-file"><span class="toc-number">3.4.</span> <span class="toc-text">Here document to config file</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Multiple-stages-before-after-chroot"><span class="toc-number">4.</span> <span class="toc-text">Multiple stages before&#x2F;after chroot</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#shebang"><span class="toc-number">4.1.</span> <span class="toc-text">shebang</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chroot"><span class="toc-number">4.2.</span> <span class="toc-text">chroot</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#chroot-in-script"><span class="toc-number">4.3.</span> <span class="toc-text">chroot in script</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#mutiple-stages"><span class="toc-number">4.4.</span> <span class="toc-text">mutiple stages</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#termux-exec-2018"><span class="toc-number">4.5.</span> <span class="toc-text">termux-exec (2018)</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#termux-exec"><span class="toc-number">4.5.1.</span> <span class="toc-text">termux-exec</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#StrictHostKeyChecking"><span class="toc-number">4.5.2.</span> <span class="toc-text">StrictHostKeyChecking</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#here-document-for-private-key"><span class="toc-number">4.5.3.</span> <span class="toc-text">here document for private key</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#repo-and-zsh"><span class="toc-number">4.5.4.</span> <span class="toc-text">repo and zsh</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#repo-2019"><span class="toc-number">4.6.</span> <span class="toc-text">repo (2019)</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/termux/termux-env-setup/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&text=Termux Environment Setup Script"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&is_video=false&description=Termux Environment Setup Script"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Termux Environment Setup Script&body=Check out this article: http://yumaokao.github.io/tw/termux/termux-env-setup/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&title=Termux Environment Setup Script"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/termux/termux-env-setup/&name=Termux Environment Setup Script&description=&lt;blockquote&gt;
+&lt;p&gt;嗨嗨，我愛 &lt;strong&gt;&lt;a href=&#34;https://termux.com/&#34;&gt;Termux&lt;/a&gt;&lt;/strong&gt; &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;terminal&#34; class=&#34;svg-inline--fa fa-terminal fa-w-20&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 640 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M257.981 272.971L63.638 467.314c-9.373 9.373-24.569 9.373-33.941 0L7.029 444.647c-9.357-9.357-9.375-24.522-.04-33.901L161.011 256 6.99 101.255c-9.335-9.379-9.317-24.544.04-33.901l22.667-22.667c9.373-9.373 24.569-9.373 33.941 0L257.981 239.03c9.373 9.372 9.373 24.568 0 33.941zM640 456v-32c0-13.255-10.745-24-24-24H312c-13.255 0-24 10.745-24 24v32c0 13.255 10.745 24 24 24h304c13.255 0 24-10.745 24-24z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;！&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/termux/termux-env-setup/&t=Termux Environment Setup Script"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2020
+    yumaokao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

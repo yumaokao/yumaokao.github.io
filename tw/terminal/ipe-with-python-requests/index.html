@@ -1,0 +1,824 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="ipeipe 是最近受到拜託寫的 Python 抓資料的程式，為了方便分享， 也就直接放到 GitHub 上了。 前後有分別對兩個不同的網站抓大量資料，所以分成兩大部份 arsp&#x2F;ipe，不過 code 還是放在一起啦XD。不過只看原始碼可能還是會不太了解，某些值是怎麼得來的， 以及過程中遇到的有趣的例外處理，就想要放在這篇趁我還記憶猶新寫起來。 個人喜好緣故，所以全都是用 Python3，用">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ipe&#x2F;arsp, Data Fetch with Python">
+<meta property="og:url" content="http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/index.html">
+<meta property="og:site_name" content="YMK&#39;s Blog">
+<meta property="og:description" content="ipeipe 是最近受到拜託寫的 Python 抓資料的程式，為了方便分享， 也就直接放到 GitHub 上了。 前後有分別對兩個不同的網站抓大量資料，所以分成兩大部份 arsp&#x2F;ipe，不過 code 還是放在一起啦XD。不過只看原始碼可能還是會不太了解，某些值是怎麼得來的， 以及過程中遇到的有趣的例外處理，就想要放在這篇趁我還記憶猶新寫起來。 個人喜好緣故，所以全都是用 Python3，用">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-04-26T05:25:41.000Z">
+<meta property="article:modified_time" content="2017-04-26T05:25:41.000Z">
+<meta property="article:author" content="yumaokao">
+<meta property="article:tag" content="python">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Category: terminal</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <style>
+      svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.225em;
+}
+.svg-inline--fa.fa-w-1 {
+  width: 0.0625em;
+}
+.svg-inline--fa.fa-w-2 {
+  width: 0.125em;
+}
+.svg-inline--fa.fa-w-3 {
+  width: 0.1875em;
+}
+.svg-inline--fa.fa-w-4 {
+  width: 0.25em;
+}
+.svg-inline--fa.fa-w-5 {
+  width: 0.3125em;
+}
+.svg-inline--fa.fa-w-6 {
+  width: 0.375em;
+}
+.svg-inline--fa.fa-w-7 {
+  width: 0.4375em;
+}
+.svg-inline--fa.fa-w-8 {
+  width: 0.5em;
+}
+.svg-inline--fa.fa-w-9 {
+  width: 0.5625em;
+}
+.svg-inline--fa.fa-w-10 {
+  width: 0.625em;
+}
+.svg-inline--fa.fa-w-11 {
+  width: 0.6875em;
+}
+.svg-inline--fa.fa-w-12 {
+  width: 0.75em;
+}
+.svg-inline--fa.fa-w-13 {
+  width: 0.8125em;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+}
+.svg-inline--fa.fa-w-15 {
+  width: 0.9375em;
+}
+.svg-inline--fa.fa-w-16 {
+  width: 1em;
+}
+.svg-inline--fa.fa-w-17 {
+  width: 1.0625em;
+}
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
+}
+.svg-inline--fa.fa-w-19 {
+  width: 1.1875em;
+}
+.svg-inline--fa.fa-w-20 {
+  width: 1.25em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-border {
+  height: 1.5em;
+}
+.svg-inline--fa.fa-li {
+  width: 2em;
+}
+.svg-inline--fa.fa-fw {
+  width: 1.25em;
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: 0.25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  -webkit-filter: none;
+          filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse {
+  color: #fff;
+}
+    </style>
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/tw/blogs/blog-with-hexo-and-next/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/tw/terminal/wunder-wunderlist-cli/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&text=ipe/arsp, Data Fetch with Python"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&is_video=false&description=ipe/arsp, Data Fetch with Python"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ipe/arsp, Data Fetch with Python&body=Check out this article: http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&name=ipe/arsp, Data Fetch with Python&description="><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&t=ipe/arsp, Data Fetch with Python"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ipe"><span class="toc-number">1.</span> <span class="toc-text">ipe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#arsp"><span class="toc-number">1.1.</span> <span class="toc-text">arsp</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#query-url-and-parameters"><span class="toc-number">1.1.1.</span> <span class="toc-text">query url and parameters</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#main-result"><span class="toc-number">1.1.2.</span> <span class="toc-text">main result</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#detail-result"><span class="toc-number">1.1.3.</span> <span class="toc-text">detail result</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipe-1"><span class="toc-number">1.2.</span> <span class="toc-text">ipe</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#result"><span class="toc-number">1.2.1.</span> <span class="toc-text">result</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decode-unicode"><span class="toc-number">1.2.2.</span> <span class="toc-text">decode_unicode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post-error-handling"><span class="toc-number">1.2.3.</span> <span class="toc-text">post error handling</span></a></li></ol></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        ipe/arsp, Data Fetch with Python
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">yumaokao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-04-26T05:25:41.000Z" itemprop="datePublished">2017-04-26</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/terminal/">terminal</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <a id="more"></a>
+
+<h2 id="ipe"><a href="#ipe" class="headerlink" title="ipe"></a>ipe</h2><p><a target="_blank" rel="noopener" href="https://github.com/yumaokao/ipe">ipe</a> 是最近受到拜託寫的 Python 抓資料的程式，為了方便分享，
+也就直接放到 GitHub 上了。</p>
+<p>前後有分別對兩個不同的網站抓大量資料，所以分成兩大部份 <a target="_blank" rel="noopener" href="http://arsp.most.gov.tw/NSCWebFront/modules/talentSearch/talentSearch.do?action=initSearchList&LANG=chi">arsp</a>/<a target="_blank" rel="noopener" href="https://github.com/yumaokao/ipe">ipe</a>，不過
+code 還是放在一起啦XD。不過只看原始碼可能還是會不太了解，某些值是怎麼得來的，
+以及過程中遇到的有趣的例外處理，就想要放在這篇趁我還記憶猶新寫起來。</p>
+<p>個人喜好緣故，所以全都是用 <code>Python3</code>，用 <a target="_blank" rel="noopener" href="http://docs.python-requests.org/en/master/">requests</a> 發要求，用 <a target="_blank" rel="noopener" href="http://lxml.de/">lxml</a> 解析內容。
+真心覺得這些真是無敵好用模組，預設必裝！！</p>
+<h3 id="arsp"><a href="#arsp" class="headerlink" title="arsp"></a>arsp</h3><p>先講 <a target="_blank" rel="noopener" href="http://arsp.most.gov.tw/NSCWebFront/modules/talentSearch/talentSearch.do?action=initSearchList&LANG=chi">arsp</a> 這個，因為這個網站不用登入，看來也沒有檢查 Cookie 的時效性，
+所以容易許多，也沒有太多例外狀況。就會以這篇來講如何抓到網址以及所帶的參數。</p>
+<h4 id="query-url-and-parameters"><a href="#query-url-and-parameters" class="headerlink" title="query url and parameters"></a>query url and parameters</h4><p>通常像這種可以條件查詢的網頁，都會是利用 <a target="_blank" rel="noopener" href="https://www.w3schools.com/html/html_forms.asp">HTML 表單</a>的方式寫好 <strong><code>submit</code></strong> 的
+<strong><code>method</code></strong> 以及 <strong><code>action</code></strong> 等等，就可以送出表單裡面的內容做事情。以
+<a target="_blank" rel="noopener" href="http://arsp.most.gov.tw/NSCWebFront/modules/talentSearch/talentSearch.do?action=initSearchList&LANG=chi">arsp</a> 為例的話，利用 Chrome 的檢查工具 <a target="_blank" rel="noopener" href="https://developer.chrome.com/devtools">Chrome DevTools</a>，可以來查看到底點選了
+<strong><code>查詢</code></strong> 了之後會發生什麼事。大概會看到就是呼叫到 <strong><code>doSearch()</code>**，
+然後再交由表單對某網址送 **POST</strong> 方法。</p>
+<blockquote><p><strong>太麻煩了，還得要看得懂 JavaScript 程式碼以及 HTML 語法，不太有效率。</strong></p>
+</blockquote>
+
+<p>其實可以多多利用 <a target="_blank" rel="noopener" href="https://developer.chrome.com/devtools">Chrome DevTools</a> 工具，像是 <strong>Network</strong>
+這裡面的功能就可以紀錄到某段時間內網路溝通的細節。以這次的例子來看的話，
+就很容易擷取到都是對哪個網址發出 POST 和裡面帶資料，當然發出去的 Header、Cookie
+等等訊息也是看得到的。</p>
+<figure class="highlight routeros"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">Request Headers:</span><br><span class="line">    POST /NSCWebFront/modules/talentSearch/talentSearch.<span class="keyword">do</span>?<span class="attribute">action</span>=initSearchList&amp;LANG=chi HTTP/1.1</span><br><span class="line">    <span class="built_in">..</span>.</span><br><span class="line">    User-Agent: Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.81 Safari/537.36</span><br><span class="line">    Content-Type: application/x-www-form-urlencoded</span><br><span class="line">    Cookie: <span class="attribute">JSESSIONID</span>=5391552526A4693DC4924447C3E7F2DD; <span class="attribute">currentUserLocale</span>=zh_TW; <span class="attribute">_ga</span>=GA1.3.1332110389.1492040511; <span class="attribute">_gid</span>=GA1.3.91147264.1493823683; <span class="attribute">_gat</span>=1</span><br><span class="line">    Request Headers:</span><br><span class="line"></span><br><span class="line">Form Data:</span><br><span class="line">    currentPage:</span><br><span class="line">    pageSize:</span><br><span class="line">    sortCondition:</span><br><span class="line">    specCode:</span><br><span class="line">    isSearch:1</span><br><span class="line">    LANG:chi</span><br><span class="line">    <span class="built_in">..</span>.</span><br></pre></td></tr></table></figure>
+<h4 id="main-result"><a href="#main-result" class="headerlink" title="main result"></a>main result</h4><p>知道了都對哪個網址發怎樣的方法以及內容之後，就馬上可以使用 <strong><code>Python</code></strong> 的
+<a target="_blank" rel="noopener" href="http://docs.python-requests.org/en/master/">requests</a> 來試試看是不是可以成功抓到所需要的結果：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">COOKIE = <span class="string">&#x27;JSESSIONID=9D08CD5044B57DB94723D285AF217184; currentUserLocale=zh_TW; _ga=GA1.3.124500067.1491977542&#x27;</span></span><br><span class="line">headers = &#123;<span class="string">&#x27;Origin&#x27;</span>: <span class="string">&#x27;http://arsp.most.gov.tw&#x27;</span>,</span><br><span class="line">	   <span class="string">&#x27;User-Agent&#x27;</span>: <span class="string">&#x27;Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/57.0.2987.110 Safari/537.36&#x27;</span>,</span><br><span class="line">	   <span class="string">&#x27;Content-Type&#x27;</span>: <span class="string">&#x27;application/x-www-form-urlencoded&#x27;</span>,</span><br><span class="line">	   ...</span><br><span class="line">	   <span class="string">&#x27;Cookie&#x27;</span>: COOKIE&#125;</span><br><span class="line"></span><br><span class="line">payload = &#123;<span class="string">&#x27;currentPage&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">	   <span class="string">&#x27;pageSize&#x27;</span>: <span class="string">&#x27;100&#x27;</span>,</span><br><span class="line">	   <span class="string">&#x27;sortCondition&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">	   <span class="string">&#x27;specCode&#x27;</span>: <span class="string">&#x27;&#x27;</span>,</span><br><span class="line">	   <span class="string">&#x27;isSearch&#x27;</span>: <span class="string">&#x27;1&#x27;</span>,</span><br><span class="line">           ...&#125;</span><br><span class="line"></span><br><span class="line">r = requests.post(url_search, headers=headers, data=payload)</span><br></pre></td></tr></table></figure>
+<p>觀察所回傳的內容可以判斷其實是一個完整的 HTML，所以可以再利用 <a target="_blank" rel="noopener" href="http://lxml.de/">lxml</a>
+來找到所需要的資料，將它們整理起來。而只要知道總共有幾頁，就可以利用上面
+<strong><code>payload</code></strong> 所帶的參數 **<code>currentPage</code>**，來自動收集全部的所有資料筆數了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text = urllib.parse.unquote(r.text)</span><br><span class="line">m = re.search(<span class="string">&quot;共&lt;em&gt;(\d+)&lt;/em&gt;筆資料│&quot;</span>, text)</span><br><span class="line">pages = <span class="built_in">int</span>(<span class="built_in">int</span>(m.group(<span class="number">1</span>)) / <span class="number">100</span>)</span><br></pre></td></tr></table></figure>
+<h4 id="detail-result"><a href="#detail-result" class="headerlink" title="detail result"></a>detail result</h4><p>雖然可以將所有筆數都收集到了，但是傳回來的只有基本的資料，
+需要更進一步去點選裡面所附的網址才能獲得更細節的資訊。再仔細觀察一下規則的話，
+會發現每筆資料的細節網址都很一致，只是所帶的參數 <strong><code>rsNo</code></strong> 有所不同而已。</p>
+<blockquote><p><strong>只要獲得了每筆資料中的 rsNo 值，就可以獲得各種細節資料的內容</strong></p>
+</blockquote>
+
+<p>細節內容的獲取方法跟上面是相當類似的，所以可以共用許多部份：</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">basic</span>(<span class="params">self</span>):</span></span><br><span class="line">    self._base_get_table(<span class="string">&#x27;initBasic&#x27;</span>, <span class="string">&#x27;基本資料&#x27;</span>, <span class="number">1</span>, <span class="string">&#x27;c30Tblist&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsm02</span>(<span class="params">self</span>):</span></span><br><span class="line">    self._base_get_table(<span class="string">&#x27;initRsm02&#x27;</span>, <span class="string">&#x27;主要學歷&#x27;</span>, <span class="number">5</span>, <span class="string">&#x27;c30Tblist2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsm03</span>(<span class="params">self</span>):</span></span><br><span class="line">    self._base_get_table(<span class="string">&#x27;initRsm03&#x27;</span>, <span class="string">&#x27;相關經歷&#x27;</span>, <span class="number">4</span>, <span class="string">&#x27;c30Tblist2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">rsm05</span>(<span class="params">self</span>):</span></span><br><span class="line">    self._base_get_table(<span class="string">&#x27;initRsm05&#x27;</span>, <span class="string">&#x27;著作目錄&#x27;</span>, <span class="number">5</span>, <span class="string">&#x27;c30Tblist2&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_detail</span>(<span class="params">self</span>):</span></span><br><span class="line">    self.basic()</span><br><span class="line">    self.rsm02()</span><br><span class="line">    self.rsm03()</span><br><span class="line">    self.rsm05()</span><br><span class="line">    <span class="keyword">return</span> self.detail</span><br></pre></td></tr></table></figure>
+<p>如此就可以抓到完整的細節資料，當然有些本來就不公開的，也就顯示為不公開了。
+最後將自動跑完所有筆數的資料再匯出成 <strong><code>csv</code></strong> 檔即可。</p>
+<h3 id="ipe-1"><a href="#ipe-1" class="headerlink" title="ipe"></a>ipe</h3><p><a target="_blank" rel="noopener" href="https://github.com/yumaokao/ipe">ipe</a> 也可以用跟 <a target="_blank" rel="noopener" href="http://arsp.most.gov.tw/NSCWebFront/modules/talentSearch/talentSearch.do?action=initSearchList&LANG=chi">arsp</a> 類似的方法，可以觀察到都是對某個網址發 **<code>POST</code>**，
+只是這次不一樣的地方是</p>
+<ol>
+<li>需要登入後的 Cookie 才有辦法成功的拿到資料</li>
+<li>成功回傳的資料不再是 HTML 了，而只是 JavaScript 的物件描述而已</li>
+</ol>
+<p>所以還是可以自動抓取的，但是所用的 <strong>Cookie</strong> 值過一陣子之後會失效，
+需要再手動連一次獲得新的 <strong>Cookie</strong> 值。
+不過跑了一下發現每次大概都可以自動抓到幾萬筆，
+換算起來也只需要做個幾次就可以抓完全部接近十萬筆的資料，
+就決定這部份手動更新就可以了。抓完全部近十萬筆的資料，大概花了<strong>六個小時</strong>左右。</p>
+<h4 id="result"><a href="#result" class="headerlink" title="result"></a>result</h4><p>分析抓回來的內容，其實是把網頁的表格內容放在回傳的 <strong><code>content: &quot;...&quot;</code></strong> 這裡面。
+看起來很像 <strong>JSON</strong>，但其實不是，不過沒關係，
+反正只需要抓到雙引號裡面的字串內容就可以了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">text = urllib.parse.unquote(r.text)</span><br><span class="line">text = text.replace(<span class="string">&#x27;\n&#x27;</span>, <span class="string">&#x27;&#x27;</span>).replace(<span class="string">&#x27;\r&#x27;</span>, <span class="string">&#x27;&#x27;</span>)</span><br><span class="line">m = re.search(<span class="string">&quot;content:&#x27;(.*)&#x27;&quot;</span>, text)</span><br></pre></td></tr></table></figure>
+<h4 id="decode-unicode"><a href="#decode-unicode" class="headerlink" title="decode_unicode"></a>decode_unicode</h4><p>看起來內容可以成功解析了，但往往都有奇妙的例外產生。這邊回傳的內容用到了少見的
+<strong><code>%uxxxx</code></strong> 格式，可以參考<a target="_blank" rel="noopener" href="https://zh.wikipedia.org/wiki/%E7%99%BE%E5%88%86%E5%8F%B7%E7%BC%96%E7%A0%81">這裡(非標準的實現)</a>。因為這個不是 <strong><code>W3C</code></strong> 標準，
+所以需要寫一個轉碼函式，不然看到的都會是亂碼。</p>
+<p><strong><code>python3</code></strong> 裡面最接近這種格式的解碼方法就是字串的
+<strong><code>.decode(&#39;unicode-escape&#39;)</code>**了，可以將 **<code>b&#39;\\uxxxx&#39;</code></strong> 轉回
+**<code>unicode 字串</code>**。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">In []: <span class="string">u&#x27;中文&#x27;</span>.encode(<span class="string">&#x27;unicode-escape&#x27;</span>)</span><br><span class="line">Out[]: <span class="string">b&#x27;\\u4e2d\\u6587&#x27;</span></span><br><span class="line"></span><br><span class="line">In []: <span class="built_in">type</span>(<span class="string">u&#x27;中文&#x27;</span>.encode(<span class="string">&#x27;unicode-escape&#x27;</span>))</span><br><span class="line">Out[]: <span class="built_in">bytes</span></span><br><span class="line"></span><br><span class="line">In []: <span class="string">b&#x27;\\u4e2d\\u6587&#x27;</span>.decode(<span class="string">&#x27;unicode-escape&#x27;</span>)</span><br><span class="line">Out[]: <span class="string">&#x27;中文&#x27;</span></span><br></pre></td></tr></table></figure>
+<p>所以寫了一個轉換函式，將 <strong><code>%uxxxx</code></strong> 替換成 <strong><code>b\\uxxxx</code>**，再利用
+**<code>eval()</code></strong> 做 **<code>.decode(&#39;unicode-escape&#39;)</code>**。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">decode_u</span>(<span class="params">a</span>):</span></span><br><span class="line">    <span class="keyword">if</span> a <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">return</span> <span class="string">&#x27;&#x27;</span></span><br><span class="line">    b = <span class="string">&quot;b&#x27;&quot;</span> + a.replace(<span class="string">&#x27;%u&#x27;</span>, <span class="string">&#x27;\\u&#x27;</span>) + <span class="string">&quot;&#x27;.decode(&#x27;unicode-escape&#x27;)&quot;</span></span><br><span class="line">    <span class="comment"># print(b)</span></span><br><span class="line">    <span class="keyword">try</span>:</span><br><span class="line">        s = <span class="built_in">eval</span>(b)</span><br><span class="line">    <span class="keyword">except</span>:</span><br><span class="line">        s = b</span><br><span class="line">    <span class="keyword">return</span> s</span><br></pre></td></tr></table></figure>
+<p>這樣就可以成功地顯示出來正確的 **<code>unicode 字串</code>**了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">In []: decode_u(<span class="string">&#x27;%u5E7F%u4E1C&#x27;</span>)</span><br><span class="line">Out[]: <span class="string">&#x27;广东&#x27;</span></span><br></pre></td></tr></table></figure>
+<h4 id="post-error-handling"><a href="#post-error-handling" class="headerlink" title="post error handling"></a>post error handling</h4><p>好吧，往往都有奇妙的例外發生 <strong>again</strong>。
+會有抓回來的內容沒有辦法成功轉碼回來例子，有的是中間插了一個奇怪的字元，
+有的中間夾雜了空格。不過數量不是很多，所以還補了後處理程式，
+把這些例外的字串手動修正過後，再送去轉一次。最後收集起來就可以匯出成一份完整的
+<strong>csv</strong> 檔案了。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#ipe"><span class="toc-number">1.</span> <span class="toc-text">ipe</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#arsp"><span class="toc-number">1.1.</span> <span class="toc-text">arsp</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#query-url-and-parameters"><span class="toc-number">1.1.1.</span> <span class="toc-text">query url and parameters</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#main-result"><span class="toc-number">1.1.2.</span> <span class="toc-text">main result</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#detail-result"><span class="toc-number">1.1.3.</span> <span class="toc-text">detail result</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ipe-1"><span class="toc-number">1.2.</span> <span class="toc-text">ipe</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#result"><span class="toc-number">1.2.1.</span> <span class="toc-text">result</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#decode-unicode"><span class="toc-number">1.2.2.</span> <span class="toc-text">decode_unicode</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#post-error-handling"><span class="toc-number">1.2.3.</span> <span class="toc-text">post error handling</span></a></li></ol></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&text=ipe/arsp, Data Fetch with Python"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&is_video=false&description=ipe/arsp, Data Fetch with Python"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=ipe/arsp, Data Fetch with Python&body=Check out this article: http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&title=ipe/arsp, Data Fetch with Python"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&name=ipe/arsp, Data Fetch with Python&description="><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/terminal/ipe-with-python-requests/&t=ipe/arsp, Data Fetch with Python"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2020
+    yumaokao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

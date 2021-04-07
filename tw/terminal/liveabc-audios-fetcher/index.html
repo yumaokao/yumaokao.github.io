@@ -1,0 +1,820 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="現在沒人在用光碟了啦 ！!">
+<meta property="og:type" content="article">
+<meta property="og:title" content="LiveABC Audios Fetcher">
+<meta property="og:url" content="http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/index.html">
+<meta property="og:site_name" content="YMK&#39;s Blog">
+<meta property="og:description" content="現在沒人在用光碟了啦 ！!">
+<meta property="og:locale">
+<meta property="article:published_time" content="2017-05-03T04:42:01.000Z">
+<meta property="article:modified_time" content="2017-05-03T04:42:01.000Z">
+<meta property="article:author" content="yumaokao">
+<meta property="article:tag" content="python">
+<meta property="article:tag" content="commandline">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Category: terminal</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <style>
+      svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.225em;
+}
+.svg-inline--fa.fa-w-1 {
+  width: 0.0625em;
+}
+.svg-inline--fa.fa-w-2 {
+  width: 0.125em;
+}
+.svg-inline--fa.fa-w-3 {
+  width: 0.1875em;
+}
+.svg-inline--fa.fa-w-4 {
+  width: 0.25em;
+}
+.svg-inline--fa.fa-w-5 {
+  width: 0.3125em;
+}
+.svg-inline--fa.fa-w-6 {
+  width: 0.375em;
+}
+.svg-inline--fa.fa-w-7 {
+  width: 0.4375em;
+}
+.svg-inline--fa.fa-w-8 {
+  width: 0.5em;
+}
+.svg-inline--fa.fa-w-9 {
+  width: 0.5625em;
+}
+.svg-inline--fa.fa-w-10 {
+  width: 0.625em;
+}
+.svg-inline--fa.fa-w-11 {
+  width: 0.6875em;
+}
+.svg-inline--fa.fa-w-12 {
+  width: 0.75em;
+}
+.svg-inline--fa.fa-w-13 {
+  width: 0.8125em;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+}
+.svg-inline--fa.fa-w-15 {
+  width: 0.9375em;
+}
+.svg-inline--fa.fa-w-16 {
+  width: 1em;
+}
+.svg-inline--fa.fa-w-17 {
+  width: 1.0625em;
+}
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
+}
+.svg-inline--fa.fa-w-19 {
+  width: 1.1875em;
+}
+.svg-inline--fa.fa-w-20 {
+  width: 1.25em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-border {
+  height: 1.5em;
+}
+.svg-inline--fa.fa-li {
+  width: 2em;
+}
+.svg-inline--fa.fa-fw {
+  width: 1.25em;
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: 0.25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  -webkit-filter: none;
+          filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse {
+  color: #fff;
+}
+    </style>
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/tw/termux/termux-env-setup/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/tw/blogs/blog-with-hexo-and-next/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&text=LiveABC Audios Fetcher"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&is_video=false&description=LiveABC Audios Fetcher"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LiveABC Audios Fetcher&body=Check out this article: http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&name=LiveABC Audios Fetcher&description=&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;現在沒人在用光碟了啦 &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;compact-disc&#34; class=&#34;svg-inline--fa fa-compact-disc fa-w-16&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 496 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zM88 256H56c0-105.9 86.1-192 192-192v32c-88.2 0-160 71.8-160 160zm160 96c-53 0-96-43-96-96s43-96 96-96 96 43 96 96-43 96-96 96zm0-128c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;！!&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&t=LiveABC Audios Fetcher"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Live-ABC-%E4%BA%92%E5%8B%95%E8%8B%B1%E8%AA%9E"><span class="toc-number">1.</span> <span class="toc-text">Live ABC 互動英語</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Biz"><span class="toc-number">1.1.</span> <span class="toc-text">Biz</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ivy-League-%E5%B8%B8%E6%98%A5%E8%97%A4%E8%8B%B1%E8%AA%9E"><span class="toc-number">2.</span> <span class="toc-text">Ivy League 常春藤英語</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ivy-Analytical-English"><span class="toc-number">2.1.</span> <span class="toc-text">Ivy Analytical English</span></a></li></ol></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        LiveABC Audios Fetcher
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">yumaokao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2017-05-03T04:42:01.000Z" itemprop="datePublished">2017-05-03</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/terminal/">terminal</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/commandline/" rel="tag">commandline</a>, <a class="tag-link-link" href="/tags/python/" rel="tag">python</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote>
+<p><strong>現在沒人在用光碟了啦 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="compact-disc" class="svg-inline--fa fa-compact-disc fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><path fill="currentColor" d="M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zM88 256H56c0-105.9 86.1-192 192-192v32c-88.2 0-160 71.8-160 160zm160 96c-53 0-96-43-96-96s43-96 96-96 96 43 96 96-43 96-96 96zm0-128c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32z"></path></svg>！!</strong></p>
+</blockquote>
+<a id="more"></a>
+
+<h2 id="Live-ABC-互動英語"><a href="#Live-ABC-互動英語" class="headerlink" title="Live ABC 互動英語"></a>Live ABC 互動英語</h2><p><a target="_blank" rel="noopener" href="http://www.liveabc.com/index.asp">LiveABC</a> 互動英語出了好多英語學習雜誌，像是 CNN 互動英語、Biz 互動英語等等，
+應該是最多量的一家了吧。買雜誌的話，通常會分有附互動光碟版以及課文朗讀版，
+不管哪一種都是有附 CD 光碟的。</p>
+<p>要是真的只有雜誌的話，那要聽裡面原文發音的人等等怎麼辦呢？
+<del>只好準時收聽廣播了</del>
+通常音檔都會放在網路上讓人下載啦，只是會需要登入會員才行。</p>
+<h3 id="Biz"><a href="#Biz" class="headerlink" title="Biz"></a>Biz</h3><p>會員登入後，會有列出音檔的下載網址。</p>
+<blockquote><p><strong>但其實知道網址的話，光下載是不需要登入的。</strong></p>
+</blockquote>
+
+<p>所以只要知道下載網址的規則就好了XD。</p>
+<p>以 Biz 互動英語2017年4月份為例，音檔是被包成三個 <code>zip</code> 檔案這樣放的。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ wget http://www.liveabc.com/declaim/biz/10604/Normal/biz10604n_01_13.zip</span><br><span class="line">$ wget http://www.liveabc.com/declaim/biz/10604/Normal/biz10604n_14_26.zip</span><br><span class="line">$ wget http://www.liveabc.com/declaim/biz/10604/Normal/biz10604n_27_30.zip</span><br></pre></td></tr></table></figure>
+<p>規則看起來就是：</p>
+<ol>
+<li><strong><code>biz</code></strong> 就是 Biz 互動英語</li>
+<li><strong><code>10604</code></strong> 就是民國壹零陸年的肆月份</li>
+<li><strong><code>01_13.zip</code></strong> 就是包含了01到13個音檔</li>
+</ol>
+<p>上面最有趣的部份就是 <strong><code>01_13.zip</code></strong> 這個了，因為每次數字其實不太一定，
+但又不想要登入去拿到明確的下載網址，該怎麼辦呢？</p>
+<p>那就都試試看就好了，反正一個月只需要掃一次而已！
+而且已知 <strong><code>aa_bb.zip</code>**，</strong><code>bb</code>** 一定大於 **<code>aa</code>**，
+就寫了一個自己抓出下載網址工具了。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">biz</span>(<span class="params">year=<span class="number">105</span>, month=<span class="number">9</span></span>):</span></span><br><span class="line">    <span class="keyword">if</span> month == <span class="number">0</span>:</span><br><span class="line">        year -= <span class="number">1</span></span><br><span class="line">        month = <span class="number">12</span></span><br><span class="line">    begin = <span class="number">1</span></span><br><span class="line">    end = begin</span><br><span class="line"></span><br><span class="line">    hostname = <span class="string">&#x27;http://www.liveabc.com&#x27;</span></span><br><span class="line">    <span class="keyword">while</span> <span class="literal">True</span>:</span><br><span class="line">        url = <span class="string">&#x27;&#123;h&#125;/declaim/biz/&#123;y&#125;&#123;m:02&#125;/Normal/biz&#123;y&#125;&#123;m:02&#125;n_&#123;b:02&#125;_&#123;e:02&#125;.zip&#x27;</span>.<span class="built_in">format</span>(h=hostname, y=year, m=month, b=begin, e=end)</span><br><span class="line">        r = requests.get(url)</span><br><span class="line">        <span class="keyword">if</span> r.status_code == <span class="number">200</span>:</span><br><span class="line">            <span class="keyword">yield</span> url</span><br><span class="line">            begin = end + <span class="number">1</span></span><br><span class="line">        end = end + <span class="number">1</span></span><br><span class="line">        <span class="keyword">if</span> end &gt; <span class="number">36</span>:</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+<p>當然相同的規則也可以套用到其他本雜誌，所以比較完整的版本<a target="_blank" rel="noopener" href="https://gist.github.com/yumaokao/fa5ee6d043cf0965d22e3ed444fdcf80">在這裡</a>。</p>
+<h2 id="Ivy-League-常春藤英語"><a href="#Ivy-League-常春藤英語" class="headerlink" title="Ivy League 常春藤英語"></a>Ivy League 常春藤英語</h2><p><a target="_blank" rel="noopener" href="https://www.ivy.com.tw/">常春藤</a> 英語也是出了好幾本英文雜誌，像是**<code>解析英語</code>**這本，
+個人認為是相當好的英語學習雜誌。前面說了，通常音檔都會放在網路上讓人下載，
+而 <a target="_blank" rel="noopener" href="https://www.ivy.com.tw/">常春藤</a> 這邊是不用登入就可以聽的。</p>
+<h3 id="Ivy-Analytical-English"><a href="#Ivy-Analytical-English" class="headerlink" title="Ivy Analytical English"></a>Ivy Analytical English</h3><p>所以剛剛出現過的這句，在這邊依然適用喔。</p>
+<blockquote><p><strong>但其實知道網址的話，光下載是不需要登入的。</strong></p>
+</blockquote>
+
+<p>例如底下是2017年5月12日的音檔網址，可以直接下載。</p>
+<figure class="highlight sh"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">http://broadcast.ivy.com.tw/broadcast/BoardData/Ivy/mp3/6351_2.mp3</span><br></pre></td></tr></table></figure>
+<p>規則是：</p>
+<ol>
+<li><strong><code>6351</code></strong> 就是音檔的流水號，數字會遞增，<strong>但不一定只差1喔</strong></li>
+<li><strong><code>6351_2</code></strong> 就是_2的有包含解說的音檔</li>
+</ol>
+<p>那麼要怎麼知道雜誌上今天對應的音檔呢？
+<a target="_blank" rel="noopener" href="https://www.ivy.com.tw/">常春藤</a> 通常周一到周六都會有音檔，而且是漸增的，所以可以把數字做排序的 list，
+接著只要知道一個定位點，再根據跟這個定位點的集數 offset 回去找 list
+中的數字就可以了。</p>
+<div class="mermaid">
+  graph LR
+A02 -->|差1天| A03
+A02 -->|差2天| A11
+A02 -->|差3天| A12
+A01 -.-> A02
+A02 -.-> A03
+A03 -.-> A11
+A11 -.-> A12
+</div>
+
+
+<p>大概是像這樣：（<strong>我 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="heart" class="svg-inline--fa fa-heart fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M462.3 62.6C407.5 15.9 326 24.3 275.7 76.2L256 96.5l-19.7-20.3C186.1 24.3 104.5 15.9 49.7 62.6c-62.8 53.6-66.1 149.8-9.9 207.9l193.5 199.8c12.5 12.9 32.8 12.9 45.3 0l193.5-199.8c56.3-58.1 53-154.3-9.8-207.9z"></path></svg> lambda</strong>）</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">today = date.today() </span><br><span class="line"> </span><br><span class="line"><span class="comment"># anchor: please select a Monday as an anchor </span></span><br><span class="line">anchor = date(<span class="number">2014</span>, <span class="number">12</span>, <span class="number">1</span>) </span><br><span class="line">origin = <span class="number">4805</span> </span><br><span class="line">delta = today - anchor </span><br><span class="line">offset = delta.days - (delta.days // <span class="number">7</span>) </span><br><span class="line"><span class="keyword">for</span> a <span class="keyword">in</span> sys.argv: </span><br><span class="line">    <span class="keyword">try</span>: </span><br><span class="line">        offset += <span class="built_in">int</span>(a) </span><br><span class="line">    <span class="keyword">except</span>: </span><br><span class="line">        <span class="keyword">pass</span> </span><br><span class="line"> </span><br><span class="line">hostname = <span class="string">&#x27;http://broadcast.ivy.com.tw&#x27;</span> </span><br><span class="line">r = requests.get(hostname + <span class="string">&#x27;/broadcast/BoardData/Ivy/mp3/&#x27;</span>) </span><br><span class="line"> </span><br><span class="line">root = parse(StringIO(r.text)).getroot() </span><br><span class="line">mp3s = <span class="built_in">filter</span>(<span class="keyword">lambda</span> t: match(<span class="string">&quot;.*_2.mp3&quot;</span>, t.get(<span class="string">&#x27;href&#x27;</span>)), root.findall(<span class="string">&quot;.//a[@href]&quot;</span>)) </span><br><span class="line">mp3s = <span class="built_in">list</span>(<span class="built_in">map</span>(<span class="keyword">lambda</span> t: (<span class="built_in">int</span>(t.text[:-<span class="number">2</span>]), hostname + t.get(<span class="string">&#x27;href&#x27;</span>)), mp3s)) </span><br><span class="line">mp3s = <span class="built_in">filter</span>(<span class="keyword">lambda</span> m: m[<span class="number">0</span>] &gt; origin - <span class="number">1</span>, mp3s) </span><br><span class="line">mp3s = <span class="built_in">sorted</span>(mp3s, key=<span class="keyword">lambda</span> m: m[<span class="number">0</span>]) </span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> <span class="built_in">len</span>(mp3s) &lt; offset + <span class="number">1</span>: </span><br><span class="line">    sys.exit(<span class="string">&quot;not found in the page&quot;</span>) </span><br><span class="line"><span class="keyword">else</span>: </span><br><span class="line">    print(mp3s[offset][<span class="number">1</span>]) </span><br></pre></td></tr></table></figure>
+<!--- <script src="//gist.github.com/fa5ee6d043cf0965d22e3ed444fdcf80.js"></script> -->
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Live-ABC-%E4%BA%92%E5%8B%95%E8%8B%B1%E8%AA%9E"><span class="toc-number">1.</span> <span class="toc-text">Live ABC 互動英語</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Biz"><span class="toc-number">1.1.</span> <span class="toc-text">Biz</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Ivy-League-%E5%B8%B8%E6%98%A5%E8%97%A4%E8%8B%B1%E8%AA%9E"><span class="toc-number">2.</span> <span class="toc-text">Ivy League 常春藤英語</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Ivy-Analytical-English"><span class="toc-number">2.1.</span> <span class="toc-text">Ivy Analytical English</span></a></li></ol></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&text=LiveABC Audios Fetcher"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&is_video=false&description=LiveABC Audios Fetcher"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=LiveABC Audios Fetcher&body=Check out this article: http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&title=LiveABC Audios Fetcher"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&name=LiveABC Audios Fetcher&description=&lt;blockquote&gt;
+&lt;p&gt;&lt;strong&gt;現在沒人在用光碟了啦 &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;compact-disc&#34; class=&#34;svg-inline--fa fa-compact-disc fa-w-16&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 496 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M248 8C111 8 0 119 0 256s111 248 248 248 248-111 248-248S385 8 248 8zM88 256H56c0-105.9 86.1-192 192-192v32c-88.2 0-160 71.8-160 160zm160 96c-53 0-96-43-96-96s43-96 96-96 96 43 96 96-43 96-96 96zm0-128c-17.7 0-32 14.3-32 32s14.3 32 32 32 32-14.3 32-32-14.3-32-32-32z&#34;&gt;&lt;/path&gt;&lt;/svg&gt;！!&lt;/strong&gt;&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/terminal/liveabc-audios-fetcher/&t=LiveABC Audios Fetcher"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2020
+    yumaokao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

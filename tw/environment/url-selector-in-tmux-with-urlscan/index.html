@@ -1,0 +1,816 @@
+<!DOCTYPE html>
+<html lang=zh>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta name="description" content="能不用 &#x2F;tmp 暫存  就不用啊">
+<meta property="og:type" content="article">
+<meta property="og:title" content="URL Selector in Tmux with Urlscan">
+<meta property="og:url" content="http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/index.html">
+<meta property="og:site_name" content="YMK&#39;s Blog">
+<meta property="og:description" content="能不用 &#x2F;tmp 暫存  就不用啊">
+<meta property="og:locale">
+<meta property="article:published_time" content="2019-11-30T09:38:03.000Z">
+<meta property="article:modified_time" content="2019-11-30T09:38:22.000Z">
+<meta property="article:author" content="yumaokao">
+<meta property="article:tag" content="shell">
+<meta property="article:tag" content="tmux">
+<meta property="article:tag" content="urlscan">
+<meta name="twitter:card" content="summary">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Category: environment</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+      
+<link rel="stylesheet" href="/css/rtl.css">
+
+    
+    <style>
+      svg:not(:root).svg-inline--fa {
+  overflow: visible;
+}
+
+.svg-inline--fa {
+  display: inline-block;
+  font-size: inherit;
+  height: 1em;
+  overflow: visible;
+  vertical-align: -0.125em;
+}
+.svg-inline--fa.fa-lg {
+  vertical-align: -0.225em;
+}
+.svg-inline--fa.fa-w-1 {
+  width: 0.0625em;
+}
+.svg-inline--fa.fa-w-2 {
+  width: 0.125em;
+}
+.svg-inline--fa.fa-w-3 {
+  width: 0.1875em;
+}
+.svg-inline--fa.fa-w-4 {
+  width: 0.25em;
+}
+.svg-inline--fa.fa-w-5 {
+  width: 0.3125em;
+}
+.svg-inline--fa.fa-w-6 {
+  width: 0.375em;
+}
+.svg-inline--fa.fa-w-7 {
+  width: 0.4375em;
+}
+.svg-inline--fa.fa-w-8 {
+  width: 0.5em;
+}
+.svg-inline--fa.fa-w-9 {
+  width: 0.5625em;
+}
+.svg-inline--fa.fa-w-10 {
+  width: 0.625em;
+}
+.svg-inline--fa.fa-w-11 {
+  width: 0.6875em;
+}
+.svg-inline--fa.fa-w-12 {
+  width: 0.75em;
+}
+.svg-inline--fa.fa-w-13 {
+  width: 0.8125em;
+}
+.svg-inline--fa.fa-w-14 {
+  width: 0.875em;
+}
+.svg-inline--fa.fa-w-15 {
+  width: 0.9375em;
+}
+.svg-inline--fa.fa-w-16 {
+  width: 1em;
+}
+.svg-inline--fa.fa-w-17 {
+  width: 1.0625em;
+}
+.svg-inline--fa.fa-w-18 {
+  width: 1.125em;
+}
+.svg-inline--fa.fa-w-19 {
+  width: 1.1875em;
+}
+.svg-inline--fa.fa-w-20 {
+  width: 1.25em;
+}
+.svg-inline--fa.fa-pull-left {
+  margin-right: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-pull-right {
+  margin-left: 0.3em;
+  width: auto;
+}
+.svg-inline--fa.fa-border {
+  height: 1.5em;
+}
+.svg-inline--fa.fa-li {
+  width: 2em;
+}
+.svg-inline--fa.fa-fw {
+  width: 1.25em;
+}
+
+.fa-layers svg.svg-inline--fa {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.fa-layers {
+  display: inline-block;
+  height: 1em;
+  position: relative;
+  text-align: center;
+  vertical-align: -0.125em;
+  width: 1em;
+}
+.fa-layers svg.svg-inline--fa {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter, .fa-layers-text {
+  display: inline-block;
+  position: absolute;
+  text-align: center;
+}
+
+.fa-layers-text {
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+}
+
+.fa-layers-counter {
+  background-color: #ff253a;
+  border-radius: 1em;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  color: #fff;
+  height: 1.5em;
+  line-height: 1;
+  max-width: 5em;
+  min-width: 1.5em;
+  overflow: hidden;
+  padding: 0.25em;
+  right: 0;
+  text-overflow: ellipsis;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-bottom-right {
+  bottom: 0;
+  right: 0;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom right;
+          transform-origin: bottom right;
+}
+
+.fa-layers-bottom-left {
+  bottom: 0;
+  left: 0;
+  right: auto;
+  top: auto;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: bottom left;
+          transform-origin: bottom left;
+}
+
+.fa-layers-top-right {
+  right: 0;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top right;
+          transform-origin: top right;
+}
+
+.fa-layers-top-left {
+  left: 0;
+  right: auto;
+  top: 0;
+  -webkit-transform: scale(0.25);
+          transform: scale(0.25);
+  -webkit-transform-origin: top left;
+          transform-origin: top left;
+}
+
+.fa-lg {
+  font-size: 1.3333333333em;
+  line-height: 0.75em;
+  vertical-align: -0.0667em;
+}
+
+.fa-xs {
+  font-size: 0.75em;
+}
+
+.fa-sm {
+  font-size: 0.875em;
+}
+
+.fa-1x {
+  font-size: 1em;
+}
+
+.fa-2x {
+  font-size: 2em;
+}
+
+.fa-3x {
+  font-size: 3em;
+}
+
+.fa-4x {
+  font-size: 4em;
+}
+
+.fa-5x {
+  font-size: 5em;
+}
+
+.fa-6x {
+  font-size: 6em;
+}
+
+.fa-7x {
+  font-size: 7em;
+}
+
+.fa-8x {
+  font-size: 8em;
+}
+
+.fa-9x {
+  font-size: 9em;
+}
+
+.fa-10x {
+  font-size: 10em;
+}
+
+.fa-fw {
+  text-align: center;
+  width: 1.25em;
+}
+
+.fa-ul {
+  list-style-type: none;
+  margin-left: 2.5em;
+  padding-left: 0;
+}
+.fa-ul > li {
+  position: relative;
+}
+
+.fa-li {
+  left: -2em;
+  position: absolute;
+  text-align: center;
+  width: 2em;
+  line-height: inherit;
+}
+
+.fa-border {
+  border: solid 0.08em #eee;
+  border-radius: 0.1em;
+  padding: 0.2em 0.25em 0.15em;
+}
+
+.fa-pull-left {
+  float: left;
+}
+
+.fa-pull-right {
+  float: right;
+}
+
+.fa.fa-pull-left,
+.fas.fa-pull-left,
+.far.fa-pull-left,
+.fal.fa-pull-left,
+.fab.fa-pull-left {
+  margin-right: 0.3em;
+}
+.fa.fa-pull-right,
+.fas.fa-pull-right,
+.far.fa-pull-right,
+.fal.fa-pull-right,
+.fab.fa-pull-right {
+  margin-left: 0.3em;
+}
+
+.fa-spin {
+  -webkit-animation: fa-spin 2s infinite linear;
+          animation: fa-spin 2s infinite linear;
+}
+
+.fa-pulse {
+  -webkit-animation: fa-spin 1s infinite steps(8);
+          animation: fa-spin 1s infinite steps(8);
+}
+
+@-webkit-keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes fa-spin {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.fa-rotate-90 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=1)";
+  -webkit-transform: rotate(90deg);
+          transform: rotate(90deg);
+}
+
+.fa-rotate-180 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2)";
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
+
+.fa-rotate-270 {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=3)";
+  -webkit-transform: rotate(270deg);
+          transform: rotate(270deg);
+}
+
+.fa-flip-horizontal {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=0, mirror=1)";
+  -webkit-transform: scale(-1, 1);
+          transform: scale(-1, 1);
+}
+
+.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(1, -1);
+          transform: scale(1, -1);
+}
+
+.fa-flip-both, .fa-flip-horizontal.fa-flip-vertical {
+  -ms-filter: "progid:DXImageTransform.Microsoft.BasicImage(rotation=2, mirror=1)";
+  -webkit-transform: scale(-1, -1);
+          transform: scale(-1, -1);
+}
+
+:root .fa-rotate-90,
+:root .fa-rotate-180,
+:root .fa-rotate-270,
+:root .fa-flip-horizontal,
+:root .fa-flip-vertical,
+:root .fa-flip-both {
+  -webkit-filter: none;
+          filter: none;
+}
+
+.fa-stack {
+  display: inline-block;
+  height: 2em;
+  position: relative;
+  width: 2.5em;
+}
+
+.fa-stack-1x,
+.fa-stack-2x {
+  bottom: 0;
+  left: 0;
+  margin: auto;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.svg-inline--fa.fa-stack-1x {
+  height: 1em;
+  width: 1.25em;
+}
+.svg-inline--fa.fa-stack-2x {
+  height: 2em;
+  width: 2.5em;
+}
+
+.fa-inverse {
+  color: #fff;
+}
+
+.sr-only {
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+}
+
+.sr-only-focusable:active, .sr-only-focusable:focus {
+  clip: auto;
+  height: auto;
+  margin: 0;
+  overflow: visible;
+  position: static;
+  width: auto;
+}
+
+.svg-inline--fa .fa-primary {
+  fill: var(--fa-primary-color, currentColor);
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa .fa-secondary {
+  fill: var(--fa-secondary-color, currentColor);
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-primary {
+  opacity: 0.4;
+  opacity: var(--fa-secondary-opacity, 0.4);
+}
+
+.svg-inline--fa.fa-swap-opacity .fa-secondary {
+  opacity: 1;
+  opacity: var(--fa-primary-opacity, 1);
+}
+
+.svg-inline--fa mask .fa-primary,
+.svg-inline--fa mask .fa-secondary {
+  fill: black;
+}
+
+.fad.fa-inverse {
+  color: #fff;
+}
+    </style>
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 5.3.0"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" href="/tw/environment/gits-submodules-foreach-and-lfs/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" href="/tw/environment/compatible-fzf-plugins-loader/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&text=URL Selector in Tmux with Urlscan"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&is_video=false&description=URL Selector in Tmux with Urlscan"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=URL Selector in Tmux with Urlscan&body=Check out this article: http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&name=URL Selector in Tmux with Urlscan&description=&lt;blockquote&gt;&lt;p&gt;能不用 /tmp 暫存 &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;file&#34; class=&#34;svg-inline--fa fa-file fa-w-12&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 384 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt; 就不用啊&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&t=URL Selector in Tmux with Urlscan"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tmux-%E5%A5%BD%E5%A5%BD%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">tmux 好好用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tmux-url-select"><span class="toc-number">2.</span> <span class="toc-text">tmux url select</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#install-urlscan"><span class="toc-number">3.</span> <span class="toc-text">install-urlscan</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tmux-urlscan"><span class="toc-number">4.</span> <span class="toc-text">tmux-urlscan</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        URL Selector in Tmux with Urlscan
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">yumaokao</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-11-30T09:38:03.000Z" itemprop="datePublished">2019-11-30</time>
+        
+      
+    </div>
+
+
+      
+    <div class="article-category">
+        <i class="fas fa-archive"></i>
+        <a class="category-link" href="/categories/environment/">environment</a>
+    </div>
+
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link-link" href="/tags/shell/" rel="tag">shell</a>, <a class="tag-link-link" href="/tags/tmux/" rel="tag">tmux</a>, <a class="tag-link-link" href="/tags/urlscan/" rel="tag">urlscan</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <blockquote><p>能不用 /tmp 暫存 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="file" class="svg-inline--fa fa-file fa-w-12" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512"><path fill="currentColor" d="M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z"></path></svg> 就不用啊</p>
+</blockquote>
+<a id="more"></a>
+
+<h1 id="tmux-好好用"><a href="#tmux-好好用" class="headerlink" title="tmux 好好用"></a><a href="#tmux-good">tmux 好好用</a></h1><p>也不知道從 <code>screen</code> 換過來 <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux">tmux</a> 有多久了，雖然還是習慣使用 <code>ctrl+a</code>，
+把 <strong>statusbar</strong> 關掉，覺得新增的 <strong>preview</strong> 也太花俏，
+但以基礎功能來說也是個生活必需品等級的程式，沒有它會活不下去的那種啊。</p>
+<p>講到<strong>把 statusbar 關掉</strong>這件事，其實也自己對於用電腦上的某種 <strong>philosophy</strong>,</p>
+<blockquote>
+<ul>
+<li>用 <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux">tmux</a>/<a target="_blank" rel="noopener" href="https://i3wm.org/">i3</a> 基本上一個 window 只做一件事</li>
+<li>基本上希望全螢幕所以<ul>
+<li><a target="_blank" rel="noopener" href="https://www.vim.org/">vim</a> 中，不會預設 <code>set number</code>，連帶著這個 blog 也就把行號隱藏了。</li>
+<li>隱藏或自動隱藏 <strong>狀態列</strong> 或是 <strong>書籤列</strong> 這種東西。</li>
+<li>有需要才開分割，用完就立刻關。</li>
+</ul>
+</li>
+</ul>
+</blockquote>
+<p>大概是以前用的 <svg aria-hidden="true" focusable="false" data-prefix="fas" data-icon="desktop" class="svg-inline--fa fa-desktop fa-w-18" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512"><path fill="currentColor" d="M528 0H48C21.5 0 0 21.5 0 48v320c0 26.5 21.5 48 48 48h192l-16 48h-72c-13.3 0-24 10.7-24 24s10.7 24 24 24h272c13.3 0 24-10.7 24-24s-10.7-24-24-24h-72l-16-48h192c26.5 0 48-21.5 48-48V48c0-26.5-21.5-48-48-48zm-16 352H64V64h448v288z"></path></svg> 比較小，
+覺得 rows 跟 cols 都很珍貴的緣故吧</p>
+<p>最近 tmux 更新到 3.0</p>
+<blockquote><ul>
+<li>INCOMPATIBLE: Add a new {} syntax to the configuration file. This is a string
+similar to single quotes but also includes newlines and allows commands that
+take other commands as string arguments to be expressed more clearly and
+without additional escaping.</li>
+</ul>
+<footer><strong>tmux 3.0 CHANGES,</strong><cite><a target="_blank" rel="noopener" href="https://raw.githubusercontent.com/tmux/tmux/3.0/CHANGES">raw.githubusercontent.com/tmux/tmux/3.0/CHANGES</a></cite></footer></blockquote>
+
+<p>所以自己在用的 <em>tmux.conf</em> 也有一行出現問題，就參考人家的修正了一下：</p>
+<figure class="highlight diff"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="deletion">- unbind %; bind-key % split-window -h -c &quot;#&#123;pane_current_path&#125;&quot;</span></span><br><span class="line"><span class="addition">+ unbind &#x27;%&#x27;; bind-key &#x27;%&#x27; split-window -h -c &quot;#&#123;pane_current_path&#125;&quot;</span></span><br></pre></td></tr></table></figure>
+<p>想說順便在 <em>tmux.conf</em> 上增加點方便的設定好了。</p>
+<h1 id="tmux-url-select"><a href="#tmux-url-select" class="headerlink" title="tmux url select"></a><a href="#tmux-url-select">tmux url select</a></h1><p>常常會有一些情況，會需要複製 <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux">tmux</a> 畫面上的網址，
+不管是要下載還是直接用瀏覽器打開，感謝 <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux">tmux</a> 有好用的 <strong>copy mode</strong> ，
+可以輕易地搜尋 <em>http</em>，選取然後複製到 <a target="_blank" rel="noopener" href="https://github.com/tmux/tmux">tmux</a> 的 <strong>buffers</strong> 裡。</p>
+<p>雖然方便是方便，也是要好幾個步驟，這時候就不禁令人想起之前 <a target="_blank" rel="noopener" href="http://www.mutt.org/">mutt</a> 的 <a target="_blank" rel="noopener" href="https://formulae.brew.sh/formula/urlview">urlview</a>。
+想要再拿來裝一下的時候，發現 <a target="_blank" rel="noopener" href="https://formulae.brew.sh/formula/urlview">urlview</a> 竟然是放在 <a target="_blank" rel="noopener" href="https://aur.archlinux.org/">AUR</a> 上，另外 [termux]
+上也沒有放這個套件。</p>
+<h1 id="install-urlscan"><a href="#install-urlscan" class="headerlink" title="install-urlscan"></a><a href="#install-urlscan">install-urlscan</a></h1><p>雖然 <a target="_blank" rel="noopener" href="https://formulae.brew.sh/formula/urlview">urlview</a> 要裝也是都有，但上網找了一下另外有一個叫 <a target="_blank" rel="noopener" href="https://github.com/firecat53/urlscan">urlscan</a>，是 <a target="_blank" rel="noopener" href="https://formulae.brew.sh/formula/urlview">urlview</a>
+的替代方案好像也不錯用，只要用 <code>pip install -U urlscan</code> 裝一裝就好了，
+而且進去選擇 urls 的時候，keybindings 也是很 <a target="_blank" rel="noopener" href="https://www.vim.org/">vim</a> 的喔。</p>
+<blockquote>
+<p>雖然需要研究一下 -n -r/-p 有什麼不同啦</p>
+</blockquote>
+<h1 id="tmux-urlscan"><a href="#tmux-urlscan" class="headerlink" title="tmux-urlscan"></a><a href="#tmux-urlscan">tmux-urlscan</a></h1><p>其實 Arch Linux 的 Wiki Tmux 頁上面有寫個例子怎麼利用 <a target="_blank" rel="noopener" href="https://formulae.brew.sh/formula/urlview">urlview</a> 開網頁喔，</p>
+<blockquote><p>To browse URLs inside tmux you must have urlviewAUR installed and configured.<br>Inside a new terminal:<br>$ bind-key u capture-pane ; save-buffer /tmp/tmux-buffer ; run-shell “$TERMINAL -e urlview /tmp/tmux-buffer”</p>
+<footer><strong>Arch Wiki,</strong><cite><a target="_blank" rel="noopener" href="https://wiki.archlinux.org/index.php/Tmux">wiki.archlinux.org/index.php/Tmux</a></cite></footer></blockquote>
+
+<p>不不不不…要啊，開個檔案 <em>/tmp/tmux-buffer</em>，那萬一有好幾個人同時用怎麼辦，
+當然是可以自己改在家目錄的啦，但總覺得就是要寫個檔案不太舒服。</p>
+<blockquote>
+<p>所以自己改了一個可以掃之前所在 pane 畫面裡的 urls 並且複製到 buffers。</p>
+</blockquote>
+<figure class="highlight"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># url select</span></span><br><span class="line">bind-key u split-window &quot;tmux capture-pane -t ! -p | urlscan -H -p --run &#x27;tmux load-buffer -&#x27;&quot;</span><br><span class="line">bind-key o split-window &quot;tmux capture-pane -t ! -p | urlscan -H&quot;</span><br></pre></td></tr></table></figure>
+<p>大概是這麼用的，請看請看</p>
+<link rel="stylesheet" type="text/css" href="/assets/asciinema-player.css" /><script src="/assets/asciinema-player.js"></script><asciinema-player src="urlscan.cast"></asciinema-player>
+
+<p>如此如此就可以這個為基礎兜出其他想要的應用了，
+像是快速地串流聽聽用 rss 訂閱的 podcasts 之類的，
+（就有的 padcasts 很奇怪都不直接放 file path 的）。</p>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#tmux-%E5%A5%BD%E5%A5%BD%E7%94%A8"><span class="toc-number">1.</span> <span class="toc-text">tmux 好好用</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tmux-url-select"><span class="toc-number">2.</span> <span class="toc-text">tmux url select</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#install-urlscan"><span class="toc-number">3.</span> <span class="toc-text">install-urlscan</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#tmux-urlscan"><span class="toc-number">4.</span> <span class="toc-text">tmux-urlscan</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.facebook.com/sharer.php?u=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://twitter.com/share?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&text=URL Selector in Tmux with Urlscan"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.linkedin.com/shareArticle?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://pinterest.com/pin/create/bookmarklet/?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&is_video=false&description=URL Selector in Tmux with Urlscan"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=URL Selector in Tmux with Urlscan&body=Check out this article: http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://getpocket.com/save?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://reddit.com/submit?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.stumbleupon.com/submit?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://digg.com/submit?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&title=URL Selector in Tmux with Urlscan"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="http://www.tumblr.com/share/link?url=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&name=URL Selector in Tmux with Urlscan&description=&lt;blockquote&gt;&lt;p&gt;能不用 /tmp 暫存 &lt;svg aria-hidden=&#34;true&#34; focusable=&#34;false&#34; data-prefix=&#34;fas&#34; data-icon=&#34;file&#34; class=&#34;svg-inline--fa fa-file fa-w-12&#34; role=&#34;img&#34; xmlns=&#34;http://www.w3.org/2000/svg&#34; viewBox=&#34;0 0 384 512&#34;&gt;&lt;path fill=&#34;currentColor&#34; d=&#34;M224 136V0H24C10.7 0 0 10.7 0 24v464c0 13.3 10.7 24 24 24h336c13.3 0 24-10.7 24-24V160H248c-13.2 0-24-10.8-24-24zm160-14.1v6.1H256V0h6.1c6.4 0 12.5 2.5 17 7l97.9 98c4.5 4.5 7 10.6 7 16.9z&#34;&gt;&lt;/path&gt;&lt;/svg&gt; 就不用啊&lt;/p&gt;
+&lt;/blockquote&gt;"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" target="_blank" rel="noopener" href="https://news.ycombinator.com/submitlink?u=http://yumaokao.github.io/tw/environment/url-selector-in-tmux-with-urlscan/&t=URL Selector in Tmux with Urlscan"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2017-2020
+    yumaokao
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">root</a></li>
+         
+          <li><a href="/archives/">archives</a></li>
+         
+          <li><a href="/categories/">categories</a></li>
+         
+          <li><a href="/tags/">tags</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+<link rel="stylesheet" href="/lib/font-awesome/css/all.min.css">
+
+
+<link rel="stylesheet" href="/lib/justified-gallery/css/justifiedGallery.min.css">
+
+
+    <!-- jquery -->
+
+<script src="/lib/jquery/jquery.min.js"></script>
+
+
+<script src="/lib/justified-gallery/js/jquery.justifiedGallery.min.js"></script>
+
+<!-- clipboard -->
+
+  
+<script src="/lib/clipboard/clipboard.min.js"></script>
+
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>
